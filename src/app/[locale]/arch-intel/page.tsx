@@ -440,17 +440,7 @@ const ArchIntelPage = () => {
             </select>
           </div>
 
-          {/* MAIN ACTION */}
-          <motion.button 
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleAnalysis}
-            disabled={isProcessing}
-            className="px-8 py-2.5 bg-foreground text-white rounded-2xl font-black uppercase tracking-widest text-[11px] flex items-center gap-2 shadow-xl shadow-black/10 hover:shadow-primary/30 transition-all disabled:opacity-50"
-          >
-            {isProcessing ? <Zap className="animate-pulse" size={16} /> : <Zap size={16} />}
-            {t('runAnalysis')}
-          </motion.button>
+
         </div>
       </header>
 
