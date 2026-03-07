@@ -395,8 +395,6 @@ const ArchIntelPage = () => {
   const progLangs = ['C', 'C++', 'Java', 'Python', 'JavaScript', 'TypeScript'];
 
 
-  const [showCloudAudit, setShowCloudAudit] = useState(false);
-
   return (
     <div className="flex flex-col gap-5 pb-10 max-w-[1400px] mx-auto">
       {/* ─── PREMIUM AWS CLOUD HEADER ─── */}
@@ -445,18 +443,6 @@ const ArchIntelPage = () => {
             </select>
           </div>
 
-          {/* Audit Toggle */}
-          <button 
-            onClick={() => setShowCloudAudit(!showCloudAudit)}
-            title="S3 & Bedrock Audit"
-            className={`p-2.5 rounded-2xl border transition-all active:scale-95 flex items-center gap-2 ${
-              showCloudAudit ? 'bg-primary text-white border-transparent shadow-lg' : 'bg-white border-border text-muted hover:text-foreground shadow-sm'
-            }`}
-          >
-            <Search size={18} />
-            <span className="text-[10px] font-black uppercase">{showCloudAudit ? 'Hide Audit' : 'Cloud Audit'}</span>
-          </button>
-
           {/* MAIN ACTION */}
           <motion.button 
             whileHover={{ scale: 1.02 }}
@@ -472,91 +458,6 @@ const ArchIntelPage = () => {
       </header>
 
 
-
-
-      {/* ═══ CLOUD AUDIT PANEL (REAL AWS VERIFICATION) ═══ */}
-      <AnimatePresence>
-        {showCloudAudit && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="bg-gray-900 text-white rounded-3xl p-6 shadow-2xl border border-white/10 overflow-hidden relative"
-          >
-            <div className="absolute top-0 right-0 p-8 opacity-10">
-              <Globe size={120} />
-            </div>
-            
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary/20 rounded-lg text-primary">
-                    <Workflow size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-black text-lg uppercase tracking-tight">Cloud Infrastructure Audit</h3>
-                    <p className="text-xs text-white/50 font-medium">Verifying real-time AWS resource commitments</p>
-                  </div>
-                </div>
-                <div className="text-[10px] font-mono bg-white/10 px-3 py-1 rounded-full text-white/60">
-                  Region: us-east-1 (N. Virginia)
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">Compute Layer</div>
-                  <div className="font-bold flex items-center gap-2">
-                    <Bot size={14} /> Amazon Bedrock
-                  </div>
-                  <div className="text-xs text-white/40 mt-1">Status: Active (Nova Lite)</div>
-                </div>
-
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Storage Layer</div>
-                  <div className="font-bold flex items-center gap-2 font-mono">
-                    <Layers size={14} /> amazon-s3://
-                  </div>
-                  <div className="text-[10px] text-white/40 mt-1 truncate">Bucket: archintel-code-uploads-941...</div>
-                </div>
-
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-1">Database Layer</div>
-                  <div className="font-bold flex items-center gap-2">
-                    <Terminal size={14} /> DynamoDB Table
-                  </div>
-                  <div className="text-xs text-white/40 mt-1">Status: Restricted/Limited</div>
-                </div>
-
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Security Layer</div>
-                  <div className="font-bold flex items-center gap-2">
-                    <Zap size={14} /> AWS Lambda
-                  </div>
-                  <div className="text-xs text-white/40 mt-1">Status: Operational</div>
-                </div>
-              </div>
-
-              {awsResult && (
-                <div className="mt-6 pt-4 border-t border-white/5 font-mono text-[11px] space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-white/40">LAST TRACE ID:</span>
-                    <span className="text-primary font-bold">{(awsResult as any).aws_metadata?.trace_id}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-white/40">DURABLE RESULTS KEY:</span>
-                    <span className="text-emerald-400">{(awsResult as any).aws_metadata?.result_json_s3_key}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-white/40">LIVE COMPUTE STATUS:</span>
-                    <span className="text-white/80">{(awsResult as any).aws_metadata?.compute_status}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
 
       {/* ═══ LANGUAGE MISMATCH WARNING ═══ */}
