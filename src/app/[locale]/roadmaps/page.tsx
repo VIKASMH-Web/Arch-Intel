@@ -55,16 +55,22 @@ const RoadmapPage = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const masterSuggestions = [
-    'Python Developer', 'Python Data Science', 'Python Automation', 'Product Manager',
-    'Project Manager', 'Pentesting Specialist', 'PHP Backend', 'PostgreSQL Admin',
-    'Frontend Developer', 'Backend Architect', 'Cloud Security Engineer', 
-    'DevOps Specialist', 'Full Stack Developer', 'Data Analyst', 
+    'Kotlin Developer', 'Kubernetes Expert', 'Kafka Engineer', 'Kibana Analyst',
+    'Keycloak Security', 'Kali Linux Expert', 'Keras AI Engineer', 'Kickstarter Strategy',
+    'Kanban Project Mgr', 'Python Developer', 'Python Data Science', 'Product Manager',
+    'Project Manager', 'Pentesting Specialist', 'Frontend Developer', 'Backend Architect',
+    'Cloud Security Engineer', 'DevOps Specialist', 'Full Stack Developer', 
     'Machine Learning Engineer', 'UI/UX Designer', 'Mobile App Dev'
   ];
+
+  const escapeRegExp = (string: string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  };
 
   const handleInputChange = (val: string) => {
     setInputValue(val);
     if (val.length > 0) {
+      const escaped = escapeRegExp(val);
       const filtered = masterSuggestions.filter(s => 
         s.toLowerCase().includes(val.toLowerCase())
       ).slice(0, 5);
@@ -87,7 +93,12 @@ const RoadmapPage = () => {
       });
       const data = await response.json();
       if (data.steps) {
-        setSteps(data.steps);
+        // Ensure every step has a modules array to prevent crashes
+        const sanitizedSteps = data.steps.map((s: any) => ({
+          ...s,
+          modules: Array.isArray(s.modules) ? s.modules : [(s.description || 'Learn more')]
+        }));
+        setSteps(sanitizedSteps);
         setResources(data.resources || []);
         setTools(data.tools || []);
         setRoadmapLabel(data.label || 'Career Roadmap');
@@ -188,7 +199,7 @@ const RoadmapPage = () => {
                         >
                           <Search size={14} className="text-muted group-hover/item:text-primary transition-colors" />
                           <span className="text-sm font-bold text-foreground group-hover/item:text-primary transition-colors">
-                            {s.split(new RegExp(`(${inputValue})`, 'gi')).map((part, idx) => (
+                            {s.split(new RegExp(`(${escapeRegExp(inputValue)})`, 'gi')).map((part, idx) => (
                               part.toLowerCase() === inputValue.toLowerCase() ? 
                                 <span key={idx} className="text-primary underline decoration-2 underline-offset-4">{part}</span> : part
                             ))}
