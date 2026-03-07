@@ -860,7 +860,42 @@ int main() {
                   </div>
                 </div>
               )}
-              <pre className="text-sm leading-relaxed text-foreground font-mono whitespace-pre-wrap">{narrativeText}</pre>
+              <div className="prose prose-sm max-w-none">
+                {narrativeText.split('\n').map((line, i) => {
+                  const trimmed = line.trim();
+                  if (!trimmed) return <div key={i} className="h-2" />;
+                  
+                  // ## Header
+                  if (trimmed.startsWith('## ')) return <h2 key={i} className="text-xl font-black text-foreground mt-4 mb-2 tracking-tight">{trimmed.slice(3)}</h2>;
+                  // ### Subheader
+                  if (trimmed.startsWith('### ')) return <h3 key={i} className="text-lg font-bold text-foreground mt-5 mb-2 border-b border-border/40 pb-1">{trimmed.slice(4)}</h3>;
+                  
+                  // Numbered list
+                  if (/^\d+\./.test(trimmed)) {
+                    const content = trimmed.replace(/^\d+\.\s*/, '');
+                    return (
+                      <div key={i} className="flex gap-3 py-1.5 pl-2">
+                        <span className="text-primary font-black text-sm min-w-[20px]">{trimmed.match(/^\d+/)?.[0]}.</span>
+                        <span className="text-sm text-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: content.replace(/\*\*(.*?)\*\*/g, '<strong class="text-foreground font-bold">$1</strong>').replace(/`(.*?)`/g, '<code class="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-xs font-mono">$1</code>') }} />
+                      </div>
+                    );
+                  }
+                  
+                  // Bullet point
+                  if (trimmed.startsWith('- ')) {
+                    const content = trimmed.slice(2);
+                    return (
+                      <div key={i} className="flex gap-3 py-1 pl-4">
+                        <span className="text-primary mt-1.5">•</span>
+                        <span className="text-sm text-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: content.replace(/\*\*(.*?)\*\*/g, '<strong class="text-foreground font-bold">$1</strong>').replace(/`(.*?)`/g, '<code class="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-xs font-mono">$1</code>') }} />
+                      </div>
+                    );
+                  }
+                  
+                  // Regular paragraph with bold/code inline
+                  return <p key={i} className="text-sm text-foreground/80 leading-relaxed" dangerouslySetInnerHTML={{ __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong class="text-foreground font-bold">$1</strong>').replace(/`(.*?)`/g, '<code class="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-xs font-mono">$1</code>') }} />;
+                })}
+              </div>
 
               
               {/* Mandatory AWS Disclosure */}

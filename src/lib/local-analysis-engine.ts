@@ -152,46 +152,163 @@ export function analyzeCode(code: string, language: string, lambdaFindings: stri
     ? lambdaFindings
     : (localSecurity.length > 0 ? localSecurity.join(". ") : "No vulnerabilities detected");
 
-  const explanation = [
-    `## A ${language} Program Analysis`,
-    ``,
-    `### Introduction`,
-    ``,
-    `This is a ${lines}-line ${language} program following a **${langInfo.paradigm}** paradigm. ${
-      functions.length > 0 
-        ? `The program defines ${functions.length} function(s) that work together to accomplish its task.` 
-        : `The program is structured as a single execution block.`
-    } ${
-      imports.length > 0 
-        ? `It leverages ${imports.length} external dependency/dependencies to extend its capabilities.` 
-        : ''
-    }`,
-    ``,
-    `### Key Concepts`,
-    ``,
-    `Before diving into the code, here are the key concepts used:`,
-    ``,
-    ...(langInfo.structures.map((s, i) => `${i + 1}. **${capitalize(s)}:** ${language} ${s} are used in this code to structure the logic and manage data flow.`)),
-    ...(functions.length > 0 ? [`${langInfo.structures.length + 1}. **Functions (${functions.join(', ')}):** Each function serves a specific purpose in the program's execution pipeline.`] : []),
-    ...(imports.length > 0 ? [`${langInfo.structures.length + (functions.length > 0 ? 2 : 1)}. **Dependencies (${imports.slice(0, 4).join(', ')}):** External libraries imported to provide additional functionality.`] : []),
-    ``,
-    `### Code Structure`,
-    ``,
-    `The structure of the provided ${language} code is as follows:`,
-    ``,
-    ...(imports.length > 0 ? [`- **Import Statements:** \`${imports.slice(0, 3).join('`, `')}\` ${imports.length > 3 ? `and ${imports.length - 3} more` : ''} — included to enable required functionality.`] : []),
-    `- **Entry Point:** \`${langInfo.entryPoint}\` — where the program execution begins.`,
-    ...(functions.map(fn => `- **Function \`${fn}()\`:** Defines a reusable block of logic that performs a specific operation.`)),
-    ...(classes.map(cls => `- **Class/Struct \`${cls}\`:** Encapsulates related data and behavior into a single unit.`)),
-    ``,
-    `### Analysis Summary`,
-    ``,
-    functions.length > 2
-      ? `The codebase demonstrates a **well-modularized** design with ${functions.length} distinct functions, indicating good separation of concerns and maintainability.`
-      : `The code is relatively compact. Consider refactoring into smaller, single-responsibility functions for better readability and testability.`,
-    ``,
-    `**Lines of Code:** ${lines} | **Functions:** ${functions.length} | **Classes:** ${classes.length} | **Dependencies:** ${imports.length}`,
-  ].filter(Boolean).join('\n');
+  // Build codeconvert.ai-style detailed explanation
+  const codeLines = code.split('\n').filter(l => l.trim().length > 0);
+  
+  // Detect specific patterns for detailed explanation
+  const hasMainFunc = code.includes('main') || code.includes('__main__');
+  const hasPrint = /printf|print|console\.log|System\.out|cout|puts|echo|fmt\.Print/.test(code);
+  const hasReturn = /return\s/.test(code);
+  const hasLoop = /for\s*\(|while\s*\(|for\s+\w+\s+in/.test(code);
+  const hasCondition = /if\s*\(|if\s+/.test(code);
+  const hasInput = /scanf|input|cin|readline|Scanner|gets/.test(code);
+  
+  const explanationParts: string[] = [];
+  
+  // === HIGH-LEVEL OVERVIEW ===
+  explanationParts.push(`## ${language} Code Explanation`);
+  explanationParts.push('');
+  explanationParts.push(`### High-Level Overview`);
+  explanationParts.push('');
+  explanationParts.push(
+    `This is a ${lines}-line ${language} program that follows a **${langInfo.paradigm}** paradigm. ` +
+    (functions.length > 0 ? `It defines ${functions.length} function(s): **${functions.join(', ')}**. ` : '') +
+    (hasPrint ? `The program produces output to the console. ` : '') +
+    (hasLoop ? `It uses loop(s) to iterate over data. ` : '') +
+    (hasCondition ? `It includes conditional logic for decision-making. ` : '') +
+    `It is ${lines < 20 ? 'a concise program often used for learning fundamentals' : lines < 50 ? 'a moderately-sized program demonstrating core concepts' : 'a substantial program with multiple logical components'}.`
+  );
+  
+  // === DETAILED EXPLANATION ===
+  explanationParts.push('');
+  explanationParts.push(`### Detailed Explanation`);
+  explanationParts.push('');
+  
+  let sectionNum = 1;
+  
+  // Explain imports/includes
+  if (imports.length > 0) {
+    for (const imp of imports) {
+      explanationParts.push(`${sectionNum}. **\`#include <${imp}>\` / \`import ${imp}\`**`);
+      explanationParts.push(`- This is a preprocessor directive / import statement.`);
+      explanationParts.push(`- It tells the compiler to include the **${imp}** library before actual compilation.`);
+      explanationParts.push(`- This library provides essential functions and definitions needed by the program.`);
+      explanationParts.push(`- Without including this, the program would not recognize the functions from this library.`);
+      explanationParts.push('');
+      sectionNum++;
+    }
+  }
+  
+  // Explain main/entry function
+  if (hasMainFunc) {
+    explanationParts.push(`${sectionNum}. **\`${langInfo.entryPoint}\`**`);
+    explanationParts.push(`- This defines the **main function**, which is the entry point of every ${language} program.`);
+    explanationParts.push(`- The program execution starts from this function.`);
+    if (language === 'C' || language === 'C++' || language === 'Java') {
+      explanationParts.push(`- \`int\` indicates that the function returns an integer value to the operating system upon completion.`);
+    }
+    explanationParts.push(`- The parentheses indicate the function's parameter list.`);
+    explanationParts.push('');
+    sectionNum++;
+  }
+  
+  // Explain curly braces / blocks
+  if (['C', 'C++', 'Java', 'JavaScript', 'TypeScript', 'Rust', 'Go'].includes(language)) {
+    explanationParts.push(`${sectionNum}. **\`{ ... }\`**`);
+    explanationParts.push(`- Curly braces define the body of the function/block.`);
+    explanationParts.push(`- All the statements inside these braces are executed sequentially when the program runs.`);
+    explanationParts.push('');
+    sectionNum++;
+  }
+  
+  // Explain each function
+  for (const fn of functions) {
+    if (fn === 'main') continue;
+    explanationParts.push(`${sectionNum}. **Function \`${fn}()\`**`);
+    explanationParts.push(`- This function defines a reusable block of logic.`);
+    explanationParts.push(`- It is called during execution to perform a specific operation.`);
+    explanationParts.push(`- Functions in ${language} help organize code into manageable, testable units.`);
+    explanationParts.push('');
+    sectionNum++;
+  }
+  
+  // Explain classes
+  for (const cls of classes) {
+    explanationParts.push(`${sectionNum}. **Class/Struct \`${cls}\`**`);
+    explanationParts.push(`- Defines a blueprint that encapsulates related data and behavior.`);
+    explanationParts.push(`- This follows ${language}'s **${langInfo.paradigm}** approach to organizing code.`);
+    explanationParts.push('');
+    sectionNum++;
+  }
+  
+  // Explain print/output
+  if (hasPrint) {
+    explanationParts.push(`${sectionNum}. **Output Statement**`);
+    explanationParts.push(`- The program uses a standard library function to print formatted output to the console.`);
+    explanationParts.push(`- The string argument is displayed exactly as it appears.`);
+    if (language === 'C' || language === 'C++') {
+      explanationParts.push(`- The statement ends with a semicolon \`;\`, which is required to terminate statements in ${language}.`);
+    }
+    explanationParts.push('');
+    sectionNum++;
+  }
+  
+  // Explain loops
+  if (hasLoop) {
+    explanationParts.push(`${sectionNum}. **Loop Structure**`);
+    explanationParts.push(`- The program uses loop(s) to repeat a block of code multiple times.`);
+    explanationParts.push(`- This is essential for iterating over collections, processing data, or repeating operations.`);
+    explanationParts.push('');
+    sectionNum++;
+  }
+  
+  // Explain conditionals
+  if (hasCondition) {
+    explanationParts.push(`${sectionNum}. **Conditional Logic**`);
+    explanationParts.push(`- The program uses conditional statements (\`if/else\`) to make decisions.`);
+    explanationParts.push(`- Different code paths are executed based on whether conditions evaluate to true or false.`);
+    explanationParts.push('');
+    sectionNum++;
+  }
+  
+  // === ADDITIONAL NOTES AND BEST PRACTICES ===
+  explanationParts.push(`### Additional Notes and Best Practices`);
+  explanationParts.push('');
+  
+  if (hasMainFunc && !hasReturn && (language === 'C' || language === 'C++' || language === 'Java')) {
+    explanationParts.push(`- **Return statement:** The main function is declared to return an \`int\`, but no explicit return value is present. It is best practice to add \`return 0;\` at the end of main to indicate successful execution.`);
+  }
+  
+  if (hasPrint && !code.includes('\\n') && (language === 'C' || language === 'C++')) {
+    explanationParts.push(`- **Newline character:** The output does not end with a newline. Adding \`\\n\` inside the string (e.g., \`printf("Hello World\\n")\`) will move the cursor to the next line after printing.`);
+  }
+  
+  if (localSecurity.length > 0) {
+    explanationParts.push(`- **Security:** ${localSecurity.length} potential security issue(s) were detected. Review these before deploying to production.`);
+  }
+  
+  explanationParts.push(`- **Readability:** ${functions.length > 2 ? 'The code is well-organized with clear function boundaries.' : 'Consider breaking the code into smaller functions for better readability, especially as the program grows.'}`);
+  explanationParts.push(`- **Error Handling:** ${code.includes('try') || code.includes('catch') || code.includes('except') ? 'The code includes error handling, which is good practice.' : 'Adding error handling (try/catch) would make the code more robust against unexpected inputs.'}`);
+  
+  // === SUMMARY ===
+  explanationParts.push('');
+  explanationParts.push(`### Summary`);
+  explanationParts.push('');
+  
+  const summaryPoints: string[] = [];
+  if (imports.length > 0) summaryPoints.push(`The program includes ${imports.length} library/libraries to use built-in functions.`);
+  if (hasMainFunc) summaryPoints.push(`The \`${langInfo.entryPoint}\` function is the program's starting point.`);
+  if (functions.length > 0) summaryPoints.push(`It defines ${functions.length} function(s): ${functions.join(', ')}.`);
+  if (hasPrint) summaryPoints.push(`Output is displayed to the console using standard output functions.`);
+  if (hasLoop) summaryPoints.push(`Loops are used to iterate over data efficiently.`);
+  if (hasCondition) summaryPoints.push(`Conditional logic enables decision-making within the program.`);
+  summaryPoints.push(`This program demonstrates fundamental concepts like ${imports.length > 0 ? 'including libraries, ' : ''}${functions.length > 0 ? 'defining functions, ' : ''}and ${hasPrint ? 'outputting text' : 'processing data'} in ${language}.`);
+  
+  for (const point of summaryPoints) {
+    explanationParts.push(`- ${point}`);
+  }
+  
+  const explanation = explanationParts.join('\n');
 
   const securityReport = [
     `**AWS Lambda Scanner:** ${lambdaFindings}`,
