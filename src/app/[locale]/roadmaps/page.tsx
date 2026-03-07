@@ -160,7 +160,7 @@ const RoadmapPage = () => {
         // Ensure every step has a modules array to prevent crashes
         const sanitizedSteps = data.steps.map((s: any) => ({
           ...s,
-          modules: Array.isArray(s.modules) ? s.modules : [(s.description || 'Learn more')]
+          modules: Array.isArray(s.topics) ? s.topics : (Array.isArray(s.modules) ? s.modules : [(s.description || s.title || 'Learn more')])
         }));
         setSteps(sanitizedSteps);
         setResources(data.resources || []);
@@ -214,7 +214,7 @@ const RoadmapPage = () => {
       </header>
 
       {/* ─── SKILL INPUT ─── */}
-      <div className="bg-white border-2 border-border/60 rounded-[2.5rem] p-8 shadow-2xl shadow-primary/5 relative overflow-hidden">
+      <div className="bg-white border-2 border-border/60 rounded-[2.5rem] p-8 shadow-2xl shadow-primary/5 relative overflow-visible z-50">
         <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
           <Zap size={140} />
         </div>

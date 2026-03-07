@@ -3,28 +3,83 @@
     "label": "Python Developer",
     "type": "technical",
     "stages": [
-      { "title": "Python Basics", "topics": ["Variables & Data Types", "Control Flow", "Functions", "String Manipulation"], "duration": "2-3 weeks" },
-      { "title": "OOP & Data Structures", "topics": ["Classes & Objects", "Inheritance", "Lists, Dicts, Sets", "Comprehensions"], "duration": "3-4 weeks" },
-      { "title": "Libraries & Ecosystem", "topics": ["NumPy", "Pandas", "Matplotlib", "Virtual Environments & pip"], "duration": "3-4 weeks" },
-      { "title": "Projects & Applications", "topics": ["Web Scraping (BeautifulSoup)", "REST API (Flask/FastAPI)", "Automation Scripts", "Database Integration"], "duration": "4-6 weeks" }
+      { "title": "Python Basics", "topics": ["Variables & Data Types", "Control Flow", "Functions", "String Manipulation"], "duration": "2 weeks" },
+      { "title": "OOP & Data Structures", "topics": ["Classes & Objects", "Inheritance", "Lists, Dicts, Sets", "Comprehensions"], "duration": "3 weeks" },
+      { "title": "Libraries & Ecosystem", "topics": ["NumPy", "Pandas", "Matplotlib", "Virtual Environments & pip"], "duration": "3 weeks" },
+      { "title": "Web Frameworks", "topics": ["Flask Routing", "Django ORM", "FastAPI Endpoints", "Middleware"], "duration": "4 weeks" },
+      { "title": "Advanced Python", "topics": ["Generators & Iterators", "Decorators", "Multithreading/AsyncIO", "Unit Testing (pytest)"], "duration": "4 weeks" },
+      { "title": "Projects & Applications", "topics": ["Web Scraping (BeautifulSoup)", "REST API Building", "Automation Scripts", "Database Integration"], "duration": "4 weeks" }
     ]
   },
   "javascript": {
     "label": "JavaScript Developer",
     "type": "technical",
     "stages": [
-      { "title": "JS Fundamentals", "topics": ["Variables", "Data Types", "Operators", "Control Flow"], "duration": "2 weeks" },
-      { "title": "DOM & Browser APIs", "topics": ["Selectors", "Events", "Storage", "Fetch"], "duration": "3 weeks" },
-      { "title": "Advanced JS", "topics": ["Async/Await", "Promises", "Closures", "Prototypes"], "duration": "4 weeks" }
+      { "title": "JS Fundamentals", "topics": ["Variables", "Data Types", "Operators", "Control Flow", "Array Methods"], "duration": "2 weeks" },
+      { "title": "DOM & Browser APIs", "topics": ["Selectors", "Events", "Storage (Local/Session)", "Fetch API"], "duration": "3 weeks" },
+      { "title": "Advanced JS", "topics": ["Async/Await", "Promises", "Closures", "Prototypes", "ES6+ Features"], "duration": "4 weeks" },
+      { "title": "Frontend Frameworks", "topics": ["React Basics", "State Management", "Component Lifecycle", "Routing"], "duration": "5 weeks" },
+      { "title": "Backend with JS", "topics": ["Node.js Basics", "Express Server", "RESTful APIs", "JWT Auth"], "duration": "4 weeks" }
+    ]
+  },
+  "frontend": {
+    "label": "Frontend Developer",
+    "type": "technical",
+    "stages": [
+      { "title": "Internet Fundamentals", "topics": ["How the Web Works", "HTTP/HTTPS", "DNS & Hosting", "Browsers"], "duration": "1 week" },
+      { "title": "HTML & CSS Core", "topics": ["Semantic HTML5", "CSS Box Model", "Flexbox & Grid", "Responsive Design"], "duration": "3 weeks" },
+      { "title": "JavaScript Mastery", "topics": ["ES6+ Syntax", "DOM Manipulation", "Fetch API & Async", "Event Loop"], "duration": "4 weeks" },
+      { "title": "Frameworks (React/Vue)", "topics": ["Components & Props", "State Management", "Hooks", "Routing"], "duration": "5 weeks" },
+      { "title": "Advanced Styling & Tools", "topics": ["Tailwind CSS", "SASS/SCSS", "Webpack/Vite", "NPM/Yarn"], "duration": "3 weeks" },
+      { "title": "Performance & Testing", "topics": ["Lighthouse Audits", "Jest/Cypress Testing", "Web Vitals", "PWA Basics"], "duration": "3 weeks" }
+    ]
+  },
+  "backend": {
+    "label": "Backend Developer",
+    "type": "technical",
+    "stages": [
+      { "title": "Programming Language", "topics": ["Syntax & Paradigms", "Data Structures", "Memory Management", "Concurrency"], "duration": "4 weeks" },
+      { "title": "Database Systems", "topics": ["SQL Queries & Joins", "NoSQL Concepts", "ACID Properties", "Normalization"], "duration": "4 weeks" },
+      { "title": "API Design", "topics": ["RESTful APIs", "GraphQL APIs", "gRPC Basics", "WebSockets"], "duration": "3 weeks" },
+      { "title": "Authentication & Security", "topics": ["OAuth 2.0", "JWT Tokens", "CORS & CSRF", "Hashing (Bcrypt)"], "duration": "3 weeks" },
+      { "title": "Caching & Message Queues", "topics": ["Redis Caching", "RabbitMQ/Kafka", "Event-Driven Arch", "Rate Limiting"], "duration": "4 weeks" },
+      { "title": "Containerization & CI/CD", "topics": ["Docker & Docker Compose", "Github Actions", "Basic Kubernetes", "Nginx/Apache"], "duration": "4 weeks" }
+    ]
+  },
+  "cloud": {
+    "label": "Cloud Architect (AWS/Azure)",
+    "type": "technical",
+    "stages": [
+      { "title": "Cloud Fundamentals", "topics": ["IaaS vs PaaS vs SaaS", "Regions & Zones", "Pricing Models", "Shared Responsibility"], "duration": "2 weeks" },
+      { "title": "Compute & Storage", "topics": ["EC2 / VMs", "S3 / Blob Storage", "EBS Volumes", "Auto Scaling Groups"], "duration": "4 weeks" },
+      { "title": "Networking & DNS", "topics": ["VPC Setup", "Subnets (Pub/Priv)", "Route53 / Traffic Routing", "Load Balancers (ALB/NLB)"], "duration": "4 weeks" },
+      { "title": "Security & Identity (IAM)", "topics": ["IAM Policies & Roles", "KMS Encryption", "WAF & Shield", "Security Groups"], "duration": "3 weeks" },
+      { "title": "Serverless Database Apps", "topics": ["Lambda Functions", "DynamoDB / NoSQL", "API Gateway", "EventBridge"], "duration": "3 weeks" },
+      { "title": "Infrastructure as Code (IaC)", "topics": ["Terraform Basics", "CloudFormation", "CI/CD Pipelines", "Monitoring (CloudWatch)"], "duration": "4 weeks" }
+    ]
+  },
+  "ai_ml": {
+    "label": "AI / ML Engineer",
+    "type": "technical",
+    "stages": [
+      { "title": "Math & Statistics", "topics": ["Linear Algebra", "Calculus Basics", "Probability", "Statistical Significance"], "duration": "4 weeks" },
+      { "title": "Data Processing", "topics": ["Pandas & NumPy", "Data Cleaning", "Feature Engineering", "Data Visualization"], "duration": "4 weeks" },
+      { "title": "Machine Learning Core", "topics": ["Supervised Learning", "Unsupervised Learning", "Scikit-Learn", "Model Evaluation"], "duration": "5 weeks" },
+      { "title": "Deep Learning Models", "topics": ["Neural Networks", "PyTorch/TensorFlow", "CNNs (Vision)", "RNNs (Sequence)"], "duration": "6 weeks" },
+      { "title": "Natural Language & LLMs", "topics": ["Transformers", "HuggingFace", "RAG Patterns", "Prompt Engineering"], "duration": "5 weeks" },
+      { "title": "MLOps & Deployment", "topics": ["Model Serving (FastAPI)", "Dockerizing Models", "AWS SageMaker", "MLflow"], "duration": "3 weeks" }
     ]
   },
   "_default": {
-    "label": "Developer",
+    "label": "Software Engineer",
     "type": "technical",
     "stages": [
-      { "title": "Fundamentals", "topics": ["Environment Setup", "Basic Syntax", "Input/Output"], "duration": "1 week" },
-      { "title": "Core Concepts", "topics": ["Functions", "Data Structures", "Error Handling"], "duration": "3 weeks" },
-      { "title": "Tools & Ecosystem", "topics": ["Package Managers", "Build Tools", "Testing"], "duration": "2 weeks" }
+      { "title": "Fundamentals", "topics": ["Environment Setup", "Basic Syntax", "Input/Output", "Data Types"], "duration": "2 weeks" },
+      { "title": "Core Concepts", "topics": ["Functions", "Data Structures", "Algorithms", "Error Handling"], "duration": "3 weeks" },
+      { "title": "Advanced Topics", "topics": ["Object-Oriented Design", "Concurrency", "Design Patterns", "Memory Management"], "duration": "4 weeks" },
+      { "title": "Tools & Ecosystem", "topics": ["Git & GitHub", "Package Managers", "Build Tools", "Automated Testing"], "duration": "3 weeks" },
+      { "title": "System Design", "topics": ["Client-Server Model", "APIs & JSON", "Database Basics", "Security Essentials"], "duration": "4 weeks" },
+      { "title": "Production Deployment", "topics": ["CI/CD Pipelines", "Docker Basics", "Cloud Hosting", "Logging & Monitoring"], "duration": "3 weeks" }
     ]
   }
 }

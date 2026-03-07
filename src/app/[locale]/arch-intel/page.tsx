@@ -14,6 +14,7 @@ import
   PlayCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { analyzeCode } from '@/lib/local-analysis-engine';
 
 /* ─── Multilingual Chat Greetings ─── */
 const chatGreetings: Record<string, string> = {
@@ -104,84 +105,6 @@ const analyzeCodeForChat = (code: string, question: string, locale: string): str
     : "I have analyzed the code. You can ask about its logic, libraries, functions, or performance complexity.";
 };
 
-/* ─── Real code explanations (No Emojis) ─── */
-const generateCodeExplanation = (code: string, lang: string, locale: string): string => {
-  const lines = code.split('\n').filter(l => l.trim().length > 0);
-  const lineCount = lines.length;
-  
-  // Improved detection
-  const importMatches = code.match(/(?:#include|import|from|require)\s+[<"']?\s*([^>"'\s]+)\s*[>"']?/g) || [];
-  const functionNames = [...code.matchAll(/(?:def|function|int|void|double|float|char|string|public|private|static)\s+(\w+)\s*\(/g)].map(m => m[1]);
-  const loops = (code.match(/\b(for|while|do)\b/g) || []).length;
-  const conditions = (code.match(/\b(if|else|switch)\b/g) || []).length;
-  
-  const isKn = locale === 'kn';
-  const isHi = locale === 'hi';
-  const formatList = (items: string[]) => items.length > 0 ? items.join(', ') : 'None';
-
-  if (isKn) {
-    let exp = `Code Intelligence Report - ${lang}\n`;
-    exp += `--------------------------------\n`;
-    exp += `Dimensions: ${lineCount} lines\n`;
-    exp += `Libraries: ${importMatches.length} detected\n`;
-    exp += `Functions: ${formatList(functionNames)}\n`;
-    exp += `Logic flow: ${loops} loops and ${conditions} conditions\n\n`;
-    exp += `Architecture Summary:\n`;
-    exp += `- It follows a ${functionNames.length > 1 ? 'modular' : 'simple'} ${lang} structure.\n`;
-    exp += `- Primary objective: Logic execution via functional blocks.\n`;
-    return exp;
-  }
-
-  if (isHi) {
-    let exp = `Code Intelligence Report - ${lang}\n`;
-    exp += `--------------------------------\n`;
-    exp += `Dimensions: ${lineCount} lines\n`;
-    exp += `Libraries: ${importMatches.length} detected\n`;
-    exp += `Functions: ${formatList(functionNames)}\n`;
-    exp += `Logic: ${loops} loops and ${conditions} conditions\n\n`;
-    exp += `Summary:\nThis code follows a standard ${lang} architectural pattern focused on execution efficiency.`;
-    return exp;
-  }
-  
-  let exp = `Code Intelligence Report - ${lang}\n`;
-  exp += `--------------------------------\n`;
-  exp += `Dimensions: ${lineCount} physical lines parsed.\n`;
-  exp += `Libraries: Detected ${importMatches.length} external library linkage(s).\n`;
-  exp += `Functions: Defined ${functionNames.length} function(s): ${formatList(functionNames)}.\n`;
-  exp += `Logic Structure: Found ${loops} iterative block(s) and ${conditions} branching point(s).\n\n`;
-  
-  exp += `Architectural Analysis:\n`;
-  if (functionNames.includes('main')) {
-    exp += `- Execution Flow: Entry point identified at 'main()'.\n`;
-  }
-  exp += `- Structural Type: This is a ${lineCount > 50 ? 'complex' : 'concise'} ${lang} implementation.\n`;
-  exp += `- Logic Depth: Time complexity is approximately O(${loops > 1 ? 'n^2' : loops === 1 ? 'n' : '1'}).\n`;
-  
-  return exp;
-};
-
-/* ─── Simulate real output ─── */
-const generateCodeOutput = (code: string, lang: string): string => {
-  const printMatches = code.match(/printf\("([^"\\]*(?:\\.[^"\\]*)*)"\)/g) 
-    || code.match(/print\(["']([^"']*?)["']\)/g)
-    || code.match(/console\.log\(["']([^"']*?)["']\)/g)
-    || code.match(/System\.out\.println\(["']([^"']*?)["']\)/g);
-  let output = `$ ${lang.toLowerCase()} compile & run\n> Compiling source...\n> Build successful (0 errors, 0 warnings)\n> Executing...\n\n--- Program Output ---\n`;
-  if (printMatches) {
-    printMatches.forEach(match => {
-      let content = match.replace(/printf\("/g, '').replace(/"\)/g, '')
-        .replace(/print\(["']/g, '').replace(/["']\)/g, '')
-        .replace(/console\.log\(["']/g, '').replace(/["']\)/g, '')
-        .replace(/System\.out\.println\(["']/g, '').replace(/["']\)/g, '')
-        .replace(/\\n/g, '\n').replace(/\\t/g, '\t');
-      output += content;
-    });
-  } else {
-    output += `(no standard output)\n`;
-  }
-  output += `\n--- End Output ---\n> Process exited with code 0\n> Execution time: ${(Math.random() * 5 + 1).toFixed(2)}ms\n> Memory used: ${(Math.random() * 2 + 0.5).toFixed(1)} MB\n`;
-  return output;
-};
 
 const appLanguages = [
   { code: 'en', label: 'English' },
@@ -204,15 +127,7 @@ const ArchIntelPage = () => {
     }
   }, []);
 
-  const [codeContent, setCodeContent] = useState(`// Welcome to Arch-Intel | Powered by Amazon Bedrock
-
-#include <stdio.h>
-
-int main() {
-    printf("Ready for AWS Serverless Intelligence\\n");
-    return 0;
-}`);
-
+  const [codeContent, setCodeContent] = useState('');
 
 
 
@@ -420,16 +335,17 @@ int main() {
       if (data.architecture_explanation) {
         setAwsResult(data);
         setNarrativeText(data.architecture_explanation);
-        setOutputLog(generateCodeOutput(codeContent, selectedLang));
+        setOutputLog('');
         setShowResults(true);
       } else {
         throw new Error(data.error || 'Analysis failed');
       }
     } catch (error: any) {
       console.error(error);
-      // Fallback to local logic if credits/keys are missing
-      setNarrativeText(generateCodeExplanation(codeContent, selectedLang, locale));
-      setOutputLog(generateCodeOutput(codeContent, selectedLang));
+      const localResult = analyzeCode(codeContent, selectedLang, "Clean");
+      setAwsResult(localResult as any);
+      setNarrativeText(localResult.architecture_explanation);
+      setOutputLog('');
       setShowResults(true);
     } finally {
       setIsProcessing(false);
@@ -911,41 +827,6 @@ int main() {
         </div>
       </div>
 
-      {/* ═══ AWS SECURITY SCAN RESULTS ═══ */}
-      {awsResult?.security_analysis && (
-        <div className="bg-orange-50/30 border border-orange-100 rounded-2xl p-4 flex items-start gap-4 shadow-sm animate-in fade-in slide-in-from-top-2 duration-700">
-          <div className="p-2 bg-orange-100 rounded-xl text-orange-600">
-            <AlertTriangle size={20} />
-          </div>
-          <div>
-            <h4 className="text-xs font-black uppercase tracking-widest text-orange-800">AWS Lambda Security Findings</h4>
-            <p className="text-sm text-orange-900 mt-1 font-medium italic">{awsResult.security_analysis}</p>
-          </div>
-        </div>
-      )}
-
-      {/* ═══ ANALYSIS RESULTS ═══ */}
-      <AnimatePresence>
-        {showResults && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-10">
-              {[
-                { label: t('reliability'), value: awsResult?.reliability || '98%', icon: CheckCircle, color: 'text-green-500', bg: 'bg-green-50' },
-                { label: t('maintainability'), value: awsResult?.maintainability || 'B+', icon: Layers, color: 'text-blue-500', bg: 'bg-blue-50' },
-                { label: t('runtimeRisks'), value: awsResult?.runtime_risks || 'None', icon: Bug, color: 'text-orange-500', bg: 'bg-orange-50' }
-              ].map((stat, i) => (
-                <div key={i} className="bg-white border border-border rounded-2xl p-5 shadow-sm flex items-center gap-4">
-                  <div className={`p-3 rounded-xl ${stat.bg}`}><stat.icon size={20} className={stat.color} /></div>
-                  <div>
-                    <span className="text-[10px] font-bold uppercase text-muted tracking-widest">{stat.label}</span>
-                    <p className="text-2xl font-extrabold">{stat.value}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
