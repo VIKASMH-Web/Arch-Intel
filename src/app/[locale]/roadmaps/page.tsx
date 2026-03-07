@@ -56,13 +56,16 @@ const RoadmapPage = () => {
 
   const masterSuggestions = [
     // A
-    'Android Developer', 'AWS Cloud Architect', 'AI Engineer', 'Angular Developer', 'API Developer',
+    'Android Developer', 'AWS Cloud Architect', 'AWS Solutions Architect', 'AWS DevOps Engineer',
+    'AI Engineer', 'Angular Developer', 'API Developer', 'Azure Cloud Engineer',
     // B
     'Backend Developer', 'Blockchain Developer', 'Business Analyst', 'Big Data Engineer',
     // C
-    'Cloud Security Engineer', 'C++ Developer', 'Cybersecurity Analyst', 'Computer Vision Engineer',
+    'Cloud Security Engineer', 'Cloud Architect', 'Cloud DevOps', 'C++ Developer', 
+    'Cybersecurity Analyst', 'Computer Vision Engineer',
     // D
-    'Data Scientist', 'Data Analyst', 'DevOps Specialist', 'Django Developer', 'Database Admin',
+    'Data Scientist', 'Data Analyst', 'Data Engineer', 'DevOps Specialist', 
+    'Django Developer', 'Database Admin', 'Deep Learning Engineer',
     // E
     'Embedded Systems Engineer', 'ETL Developer', 'Ethical Hacker',
     // F
@@ -80,19 +83,21 @@ const RoadmapPage = () => {
     // L
     'Linux Administrator', 'LLM Engineer', 'Laravel Developer',
     // M
-    'Machine Learning Engineer', 'MERN Stack', 'Mobile App Developer', 'MongoDB Developer',
+    'Machine Learning Engineer', 'MERN Stack Developer', 'Mobile App Developer', 'MongoDB Developer',
     // N
     'Node.js Developer', 'NLP Engineer', 'Network Engineer', 'Next.js Developer',
     // O
     'Open Source Contributor', 'Oracle DBA',
     // P
-    'Python Developer', 'Product Manager', 'PHP Developer', 'PowerBI Analyst', 'Prompt Engineer',
+    'Python Developer', 'Python Data Science', 'Product Manager', 'PHP Developer', 
+    'PowerBI Analyst', 'Prompt Engineer', 'Platform Engineer',
     // Q
     'QA Engineer', 'Quantum Computing',
     // R
     'React Developer', 'Rust Developer', 'Ruby on Rails', 'RPA Developer', 'R Data Analyst',
     // S
-    'Spring Boot Developer', 'Solidity Developer', 'Site Reliability Engineer', 'Swift Developer', 'SQL Developer',
+    'Spring Boot Developer', 'Solidity Developer', 'Site Reliability Engineer', 
+    'Swift Developer', 'SQL Developer', 'Solutions Architect', 'System Administrator',
     // T
     'TypeScript Developer', 'Terraform Engineer', 'Tech Lead', 'TensorFlow Engineer',
     // U
@@ -112,12 +117,23 @@ const RoadmapPage = () => {
   const handleInputChange = (val: string) => {
     setInputValue(val);
     if (val.length > 0) {
-      const escaped = escapeRegExp(val);
-      const filtered = masterSuggestions.filter(s => 
-        s.toLowerCase().includes(val.toLowerCase())
-      ).slice(0, 5);
-      setSuggestions(filtered);
-      setShowSuggestions(true);
+      const inputWords = val.toLowerCase().split(/\s+/).filter(w => w.length > 0);
+      
+      // Score each suggestion by how many input words it matches
+      const scored = masterSuggestions.map(s => {
+        const sLower = s.toLowerCase();
+        let score = 0;
+        for (const word of inputWords) {
+          if (sLower.includes(word)) score++;
+        }
+        return { text: s, score };
+      })
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6);
+
+      setSuggestions(scored.map(s => s.text));
+      setShowSuggestions(scored.length > 0);
     } else {
       setShowSuggestions(false);
     }

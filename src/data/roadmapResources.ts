@@ -114,5 +114,54 @@ export const roadmapResources: Record<string, any> = {
         { title: "freeCodeCamp Full Stack", source: "freeCodeCamp", type: "Course", link: "https://www.freecodecamp.org/" },
         { title: "Full Stack Open (Helsinki)", source: "University of Helsinki", type: "Course", link: "https://fullstackopen.com/en/" },
         { title: "MDN Web Docs", source: "MDN", type: "Documentation", link: "https://developer.mozilla.org/" }
+    ],
+
+    "AWS": [
+        { title: "AWS Skill Builder", source: "AWS", type: "Course", link: "https://explore.skillbuilder.aws/" },
+        { title: "AWS Well-Architected Framework", source: "AWS", type: "Documentation", link: "https://aws.amazon.com/architecture/well-architected/" },
+        { title: "AWS Free Tier", source: "AWS", type: "Platform", link: "https://aws.amazon.com/free/" },
+        { title: "AWS Certified Solutions Architect", source: "AWS", type: "Certification", link: "https://aws.amazon.com/certification/certified-solutions-architect-associate/" },
+        { title: "AWS Cloud Practitioner Essentials", source: "Coursera", type: "Course", link: "https://www.coursera.org/learn/aws-cloud-practitioner-essentials" },
+        { title: "Adrian Cantrill AWS Courses", source: "learn.cantrill.io", type: "Course", link: "https://learn.cantrill.io/" }
+    ],
+
+    "Architect": [
+        { title: "AWS Well-Architected Framework", source: "AWS", type: "Documentation", link: "https://aws.amazon.com/architecture/well-architected/" },
+        { title: "System Design Primer", source: "GitHub", type: "Free Book", link: "https://github.com/donnemartin/system-design-primer" },
+        { title: "Roadmap.sh System Design", source: "Roadmap.sh", type: "Guide", link: "https://roadmap.sh/system-design" },
+        { title: "AWS Solutions Architect Cert", source: "AWS", type: "Certification", link: "https://aws.amazon.com/certification/certified-solutions-architect-associate/" },
+        { title: "ByteByteGo (System Design)", source: "YouTube", type: "Video", link: "https://www.youtube.com/@ByteByteGo" }
+    ],
+
+    "Android": [
+        { title: "Android Developer Docs", source: "Google", type: "Documentation", link: "https://developer.android.com/" },
+        { title: "Android Basics with Compose", source: "Google", type: "Course", link: "https://developer.android.com/courses/android-basics-compose/course" },
+        { title: "Philipp Lackner (YT)", source: "YouTube", type: "Video", link: "https://www.youtube.com/@PhilippLackner" }
+    ],
+
+    "Flutter": [
+        { title: "Flutter Official Docs", source: "Flutter.dev", type: "Documentation", link: "https://flutter.dev/docs" },
+        { title: "Flutter Codelabs", source: "Google", type: "Tutorial", link: "https://codelabs.developers.google.com/?cat=Flutter" },
+        { title: "Flutter Crash Course (YT)", source: "YouTube", type: "Video", link: "https://www.youtube.com/results?search_query=flutter+crash+course" }
+    ],
+
+    "SQL": [
+        { title: "SQLBolt (Interactive)", source: "SQLBolt", type: "Tutorial", link: "https://sqlbolt.com/" },
+        { title: "Mode SQL Tutorial", source: "Mode", type: "Tutorial", link: "https://mode.com/sql-tutorial/" },
+        { title: "LeetCode SQL 50", source: "LeetCode", type: "Practice", link: "https://leetcode.com/studyplan/top-sql-50/" },
+        { title: "PostgreSQL Docs", source: "PostgreSQL", type: "Documentation", link: "https://www.postgresql.org/docs/current/tutorial.html" }
+    ],
+
+    "Blockchain": [
+        { title: "CryptoZombies (Free)", source: "CryptoZombies", type: "Tutorial", link: "https://cryptozombies.io/" },
+        { title: "Solidity by Example", source: "Solidity", type: "Tutorial", link: "https://solidity-by-example.org/" },
+        { title: "Ethereum.org Learn", source: "Ethereum", type: "Documentation", link: "https://ethereum.org/en/developers/" }
+    ],
+
+    "AI": [
+        { title: "Google AI Crash Course", source: "Google", type: "Course", link: "https://developers.google.com/machine-learning/crash-course" },
+        { title: "fast.ai Practical Deep Learning", source: "fast.ai", type: "Course", link: "https://www.fast.ai/" },
+        { title: "Hugging Face Courses", source: "Hugging Face", type: "Course", link: "https://huggingface.co/learn" },
+        { title: "Papers With Code", source: "PWC", type: "Research", link: "https://paperswithcode.com/" }
     ]
 };

@@ -1,9 +1,82 @@
 {
   "development": [
-    { "name": "VS Code", "tags": ["all", "technical"] },
-    { "name": "Git", "tags": ["all", "technical"] }
+    { "name": "VS Code", "tags": ["all"] },
+    { "name": "Git & GitHub", "tags": ["all"] },
+    { "name": "Docker", "tags": ["devops", "backend", "cloud", "fullstack"] },
+    { "name": "Postman", "tags": ["backend", "fullstack", "api"] },
+    { "name": "Terminal / CLI", "tags": ["all"] }
   ],
-  "design": [
-    { "name": "Figma", "tags": ["design", "ui_ux_design"] }
+  "cloud": [
+    { "name": "AWS Console", "tags": ["cloud", "devops"] },
+    { "name": "AWS CLI", "tags": ["cloud", "devops"] },
+    { "name": "Terraform", "tags": ["cloud", "devops"] },
+    { "name": "Kubernetes (kubectl)", "tags": ["devops", "cloud"] },
+    { "name": "CloudFormation / CDK", "tags": ["cloud"] },
+    { "name": "Ansible", "tags": ["devops"] }
+  ],
+  "frontend": [
+    { "name": "React DevTools", "tags": ["frontend", "fullstack", "react"] },
+    { "name": "Chrome DevTools", "tags": ["frontend", "fullstack"] },
+    { "name": "Webpack / Vite", "tags": ["frontend", "fullstack"] },
+    { "name": "Storybook", "tags": ["frontend", "ui_ux_design"] },
+    { "name": "Figma", "tags": ["frontend", "ui_ux_design", "design"] },
+    { "name": "Tailwind CSS", "tags": ["frontend", "fullstack"] }
+  ],
+  "backend": [
+    { "name": "Node.js", "tags": ["backend", "fullstack", "javascript"] },
+    { "name": "Express.js", "tags": ["backend", "fullstack"] },
+    { "name": "PostgreSQL", "tags": ["backend", "sql", "data_science", "fullstack"] },
+    { "name": "MongoDB", "tags": ["backend", "fullstack"] },
+    { "name": "Redis", "tags": ["backend", "fullstack"] },
+    { "name": "Nginx", "tags": ["backend", "devops"] }
+  ],
+  "data_science": [
+    { "name": "Jupyter Notebook", "tags": ["data_science", "ai_ml", "python"] },
+    { "name": "Pandas", "tags": ["data_science", "ai_ml", "python"] },
+    { "name": "NumPy", "tags": ["data_science", "ai_ml", "python"] },
+    { "name": "Matplotlib / Seaborn", "tags": ["data_science", "python"] },
+    { "name": "Scikit-Learn", "tags": ["ai_ml", "data_science"] },
+    { "name": "TensorFlow / PyTorch", "tags": ["ai_ml"] },
+    { "name": "Kaggle", "tags": ["data_science", "ai_ml"] }
+  ],
+  "mobile": [
+    { "name": "Android Studio", "tags": ["mobile", "kotlin"] },
+    { "name": "Xcode", "tags": ["mobile", "swift"] },
+    { "name": "Flutter / Dart", "tags": ["mobile"] },
+    { "name": "React Native", "tags": ["mobile", "javascript"] },
+    { "name": "Firebase", "tags": ["mobile", "fullstack"] }
+  ],
+  "security": [
+    { "name": "Burp Suite", "tags": ["cybersecurity"] },
+    { "name": "Nmap", "tags": ["cybersecurity"] },
+    { "name": "Wireshark", "tags": ["cybersecurity"] },
+    { "name": "Kali Linux", "tags": ["cybersecurity"] },
+    { "name": "Metasploit", "tags": ["cybersecurity"] },
+    { "name": "OWASP ZAP", "tags": ["cybersecurity"] }
+  ],
+  "python": [
+    { "name": "PyCharm / VS Code", "tags": ["python"] },
+    { "name": "pip / Poetry", "tags": ["python"] },
+    { "name": "virtualenv / conda", "tags": ["python", "data_science"] },
+    { "name": "Flask / FastAPI", "tags": ["python", "backend"] },
+    { "name": "Django", "tags": ["python", "backend", "fullstack"] }
+  ],
+  "java": [
+    { "name": "IntelliJ IDEA", "tags": ["java", "kotlin"] },
+    { "name": "Maven / Gradle", "tags": ["java", "kotlin"] },
+    { "name": "Spring Boot", "tags": ["java", "backend"] },
+    { "name": "JUnit", "tags": ["java"] }
+  ],
+  "blockchain": [
+    { "name": "Remix IDE", "tags": ["blockchain"] },
+    { "name": "Hardhat", "tags": ["blockchain"] },
+    { "name": "MetaMask", "tags": ["blockchain"] },
+    { "name": "Etherscan", "tags": ["blockchain"] }
+  ],
+  "ci_cd": [
+    { "name": "GitHub Actions", "tags": ["devops", "all"] },
+    { "name": "Jenkins", "tags": ["devops"] },
+    { "name": "CircleCI", "tags": ["devops"] },
+    { "name": "AWS CodePipeline", "tags": ["cloud", "devops"] }
   ]
 }
