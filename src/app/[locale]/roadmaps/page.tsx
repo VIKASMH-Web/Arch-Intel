@@ -55,12 +55,54 @@ const RoadmapPage = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const masterSuggestions = [
-    'Kotlin Developer', 'Kubernetes Expert', 'Kafka Engineer', 'Kibana Analyst',
-    'Keycloak Security', 'Kali Linux Expert', 'Keras AI Engineer', 'Kickstarter Strategy',
-    'Kanban Project Mgr', 'Python Developer', 'Python Data Science', 'Product Manager',
-    'Project Manager', 'Pentesting Specialist', 'Frontend Developer', 'Backend Architect',
-    'Cloud Security Engineer', 'DevOps Specialist', 'Full Stack Developer', 
-    'Machine Learning Engineer', 'UI/UX Designer', 'Mobile App Dev'
+    // A
+    'Android Developer', 'AWS Cloud Architect', 'AI Engineer', 'Angular Developer', 'API Developer',
+    // B
+    'Backend Developer', 'Blockchain Developer', 'Business Analyst', 'Big Data Engineer',
+    // C
+    'Cloud Security Engineer', 'C++ Developer', 'Cybersecurity Analyst', 'Computer Vision Engineer',
+    // D
+    'Data Scientist', 'Data Analyst', 'DevOps Specialist', 'Django Developer', 'Database Admin',
+    // E
+    'Embedded Systems Engineer', 'ETL Developer', 'Ethical Hacker',
+    // F
+    'Frontend Developer', 'Flutter Developer', 'Full Stack Developer', 'Firebase Developer',
+    // G
+    'Game Developer', 'Go Developer', 'GraphQL Developer', 'GCP Architect',
+    // H
+    'Hadoop Engineer', 'HTML/CSS Developer', 'HPC Engineer',
+    // I
+    'iOS Developer', 'Infrastructure Engineer', 'Information Security',
+    // J
+    'Java Developer', 'JavaScript Developer', 'Jenkins CI/CD',
+    // K
+    'Kotlin Developer', 'Kubernetes Expert', 'Kafka Engineer', 'Keras AI Engineer',
+    // L
+    'Linux Administrator', 'LLM Engineer', 'Laravel Developer',
+    // M
+    'Machine Learning Engineer', 'MERN Stack', 'Mobile App Developer', 'MongoDB Developer',
+    // N
+    'Node.js Developer', 'NLP Engineer', 'Network Engineer', 'Next.js Developer',
+    // O
+    'Open Source Contributor', 'Oracle DBA',
+    // P
+    'Python Developer', 'Product Manager', 'PHP Developer', 'PowerBI Analyst', 'Prompt Engineer',
+    // Q
+    'QA Engineer', 'Quantum Computing',
+    // R
+    'React Developer', 'Rust Developer', 'Ruby on Rails', 'RPA Developer', 'R Data Analyst',
+    // S
+    'Spring Boot Developer', 'Solidity Developer', 'Site Reliability Engineer', 'Swift Developer', 'SQL Developer',
+    // T
+    'TypeScript Developer', 'Terraform Engineer', 'Tech Lead', 'TensorFlow Engineer',
+    // U
+    'UI/UX Designer', 'Unity Game Dev', 'Unix Administrator',
+    // V
+    'Vue.js Developer', 'VR/AR Developer',
+    // W
+    'Web Developer', 'WordPress Developer',
+    // X-Z
+    'Xamarin Developer', 'YAML DevOps', 'Zig Developer'
   ];
 
   const escapeRegExp = (string: string) => {

@@ -3,92 +3,116 @@ const getYoutubeThumb = (id: string) => `https://img.youtube.com/vi/${id}/mqdefa
 
 export const roadmapResources: Record<string, any> = {
     "_defaults": [
-        { 
-            title: "Stack Overflow", 
-            description: "The world's largest developer community.", 
-            type: "Practice", 
-            difficulty: "All", 
-            link: "https://stackoverflow.com",
-            duration: "N/A",
-            source: "Stack Overflow",
-            relevance: 80,
-            aiCurated: false
-        },
-        { 
-            title: "GitHub Explore", 
-            description: "Discover trending repositories.", 
-            type: "Project", 
-            difficulty: "Intermediate", 
-            link: "https://github.com/explore",
-            duration: "Ongoing",
-            source: "GitHub",
-            relevance: 85,
-            aiCurated: false
-        },
-        {
-            title: "DevDocs",
-            description: "Fast, offline documentation browser.",
-            type: "Documentation",
-            difficulty: "All",
-            link: "https://devdocs.io",
-            duration: "Reference",
-            source: "DevDocs",
-            relevance: 90,
-            aiCurated: true
-        }
+        { title: "Stack Overflow", source: "Stack Overflow", type: "Practice", link: "https://stackoverflow.com", relevance: 80 },
+        { title: "GitHub Explore", source: "GitHub", type: "Project", link: "https://github.com/explore", relevance: 85 },
+        { title: "DevDocs", source: "DevDocs", type: "Documentation", link: "https://devdocs.io", relevance: 90 },
+        { title: "Roadmap.sh", source: "Roadmap.sh", type: "Guide", link: "https://roadmap.sh", relevance: 95 }
     ],
 
-    "Full Stack Developer": {
-        "HTML/CSS Foundations": [
-            { 
-                title: "MDN Web Docs: HTML", 
-                description: "The official guide to HTML standards and semantics.", 
-                type: "Documentation", 
-                difficulty: "Beginner", 
-                link: "https://developer.mozilla.org/en-US/docs/Web/HTML", 
-                duration: "10h",
-                source: "MDN",
-                relevance: 98,
-                aiCurated: true 
-            },
-            { 
-                title: "HTML & CSS Full Course", 
-                description: "Complete beginner course by SuperSimpleDev.", 
-                type: "Video", 
-                difficulty: "Beginner", 
-                link: "https://www.youtube.com/watch?v=Ke90Tje7VS0",
-                videoId: "Ke90Tje7VS0",
-                duration: "6h 30m",
-                source: "YouTube",
-                relevance: 95,
-                aiCurated: true 
-            },
-            { 
-                title: "Frontend Mentor", 
-                description: "Solve real-world HTML, CSS and JS challenges.", 
-                type: "Practice", 
-                difficulty: "Beginner", 
-                link: "https://www.frontendmentor.io/", 
-                duration: "Project",
-                source: "Frontend Mentor",
-                relevance: 90,
-                aiCurated: false 
-            }
-        ],
-        "JS/TypeScript Depth": [
-            { title: "JavaScript.info", description: "The Modern JavaScript Tutorial.", type: "Documentation", difficulty: "Intermediate", link: "https://javascript.info/", duration: "20h", source: "JS.info", relevance: 99, aiCurated: true },
-            { title: "JavaScript Mastery", description: "Complete JS course with projects.", type: "Video", difficulty: "Intermediate", link: "https://www.youtube.com/watch?v=PkZNo7MFNFg", videoId: "PkZNo7MFNFg", duration: "3h", source: "YouTube", relevance: 92, aiCurated: false },
-            { title: "LeetCode: JavaScript 30", description: "30 days of JS coding challenges.", type: "Practice", difficulty: "Advanced", link: "https://leetcode.com/studyplan/30-days-of-javascript/", duration: "30 Days", source: "LeetCode", relevance: 88, aiCurated: true }
-        ],
-        "Frontend Frameworks (React)": [
-            { title: "React.dev", description: "The library for web and native user interfaces.", type: "Documentation", difficulty: "Intermediate", link: "https://react.dev/", duration: "15h", source: "React", relevance: 100, aiCurated: true },
-            { title: "React JS - Full Course", description: "Build a Netflix Clone with React.", type: "Video", difficulty: "Beginner", link: "https://www.youtube.com/watch?v=SqcY0GlETPk", videoId: "SqcY0GlETPk", duration: "10h", source: "YouTube", relevance: 94, aiCurated: true },
-            { title: "Build Your Own React", description: "Rewrite React from scratch to understand it.", type: "Project", difficulty: "Advanced", link: "https://pomb.us/build-your-own-react/", duration: "4h", source: "Rodrigo Pombo", relevance: 96, aiCurated: true }
-        ],
-        "Backend (Node/Python/Go)": [
-            { title: "Node.js Design Patterns", description: "Design patterns for robust Node.js apps.", type: "Documentation", difficulty: "Advanced", link: "https://www.nodejsdesignpatterns.com/", duration: "Book", source: "Node.js", relevance: 90, aiCurated: true },
-            { title: "Node.js Full Course", description: "Learn Node.js in 1 Hour.", type: "Video", difficulty: "Beginner", link: "https://www.youtube.com/watch?v=TlB_eWDSMt4", videoId: "TlB_eWDSMt4", duration: "1h", source: "YouTube", relevance: 85, aiCurated: false },
-            { title: "Roadmap.sh Backend", description: "Step by step guide to becoming a backend dev.", type: "Practice", difficulty: "Intermediate", link: "https://roadmap.sh/backend", duration: "Ongoing", source: "Roadmap.sh", relevance: 95, aiCurated: true }
-        ]
-    }
+    "Python": [
+        { title: "Python Official Docs", source: "Python.org", type: "Documentation", link: "https://docs.python.org/3/tutorial/" },
+        { title: "Automate the Boring Stuff", source: "Al Sweigart", type: "Free Book", link: "https://automatetheboringstuff.com/" },
+        { title: "Real Python Tutorials", source: "Real Python", type: "Tutorial", link: "https://realpython.com/" },
+        { title: "Python for Everybody (FCC)", source: "freeCodeCamp", type: "Video", link: "https://www.youtube.com/watch?v=8DvywoWv6fI" },
+        { title: "LeetCode Python Track", source: "LeetCode", type: "Practice", link: "https://leetcode.com/problemset/" },
+        { title: "100 Days of Code (Udemy)", source: "Udemy", type: "Course", link: "https://www.udemy.com/course/100-days-of-code/" }
+    ],
+
+    "JavaScript": [
+        { title: "JavaScript.info", source: "JS.info", type: "Tutorial", link: "https://javascript.info/" },
+        { title: "MDN JavaScript Guide", source: "MDN", type: "Documentation", link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide" },
+        { title: "Eloquent JavaScript (Free)", source: "Marijn Haverbeke", type: "Free Book", link: "https://eloquentjavascript.net/" },
+        { title: "JavaScript Mastery (YT)", source: "YouTube", type: "Video", link: "https://www.youtube.com/watch?v=PkZNo7MFNFg" },
+        { title: "30 Days of JavaScript", source: "LeetCode", type: "Practice", link: "https://leetcode.com/studyplan/30-days-of-javascript/" }
+    ],
+
+    "React": [
+        { title: "React Official Docs", source: "React.dev", type: "Documentation", link: "https://react.dev/learn" },
+        { title: "React Full Course 2024", source: "YouTube", type: "Video", link: "https://www.youtube.com/watch?v=SqcY0GlETPk" },
+        { title: "Build Your Own React", source: "Rodrigo Pombo", type: "Tutorial", link: "https://pomb.us/build-your-own-react/" },
+        { title: "Frontend Mentor", source: "Frontend Mentor", type: "Practice", link: "https://www.frontendmentor.io/" }
+    ],
+
+    "Frontend": [
+        { title: "MDN Web Docs: HTML", source: "MDN", type: "Documentation", link: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+        { title: "CSS Tricks", source: "CSS Tricks", type: "Tutorial", link: "https://css-tricks.com/" },
+        { title: "Frontend Mentor", source: "Frontend Mentor", type: "Practice", link: "https://www.frontendmentor.io/" },
+        { title: "Kevin Powell CSS (YT)", source: "YouTube", type: "Video", link: "https://www.youtube.com/@KevinPowell" },
+        { title: "JavaScript.info", source: "JS.info", type: "Tutorial", link: "https://javascript.info/" }
+    ],
+
+    "Backend": [
+        { title: "Node.js Official Docs", source: "Node.js", type: "Documentation", link: "https://nodejs.org/en/docs/" },
+        { title: "Express.js Guide", source: "Express", type: "Tutorial", link: "https://expressjs.com/en/starter/installing.html" },
+        { title: "Roadmap.sh Backend", source: "Roadmap.sh", type: "Guide", link: "https://roadmap.sh/backend" },
+        { title: "REST API Design Best Practices", source: "freeCodeCamp", type: "Video", link: "https://www.youtube.com/watch?v=DcLnCfR0qSw" }
+    ],
+
+    "DevOps": [
+        { title: "Roadmap.sh DevOps", source: "Roadmap.sh", type: "Guide", link: "https://roadmap.sh/devops" },
+        { title: "Docker Official Docs", source: "Docker", type: "Documentation", link: "https://docs.docker.com/get-started/" },
+        { title: "Kubernetes Docs", source: "Kubernetes", type: "Documentation", link: "https://kubernetes.io/docs/tutorials/" },
+        { title: "TechWorld with Nana (YT)", source: "YouTube", type: "Video", link: "https://www.youtube.com/@TechWorldwithNana" },
+        { title: "GitHub Actions Docs", source: "GitHub", type: "Tutorial", link: "https://docs.github.com/en/actions" }
+    ],
+
+    "Data Science": [
+        { title: "Kaggle Learn", source: "Kaggle", type: "Tutorial", link: "https://www.kaggle.com/learn" },
+        { title: "fast.ai Free Course", source: "fast.ai", type: "Course", link: "https://www.fast.ai/" },
+        { title: "Python Data Science Handbook", source: "Jake VanderPlas", type: "Free Book", link: "https://jakevdp.github.io/PythonDataScienceHandbook/" },
+        { title: "StatQuest (YT)", source: "YouTube", type: "Video", link: "https://www.youtube.com/@statquest" }
+    ],
+
+    "Machine Learning": [
+        { title: "Andrew Ng's ML Course", source: "Coursera", type: "Course", link: "https://www.coursera.org/learn/machine-learning" },
+        { title: "Scikit-Learn Docs", source: "Scikit-Learn", type: "Documentation", link: "https://scikit-learn.org/stable/tutorial/" },
+        { title: "Google ML Crash Course", source: "Google", type: "Course", link: "https://developers.google.com/machine-learning/crash-course" },
+        { title: "Hands-On ML (Book)", source: "Aurélien Géron", type: "Book", link: "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/" }
+    ],
+
+    "Cloud": [
+        { title: "AWS Free Tier", source: "AWS", type: "Platform", link: "https://aws.amazon.com/free/" },
+        { title: "AWS Skill Builder", source: "AWS", type: "Course", link: "https://explore.skillbuilder.aws/" },
+        { title: "A Cloud Guru", source: "Pluralsight", type: "Course", link: "https://acloudguru.com/" },
+        { title: "AWS Well-Architected", source: "AWS", type: "Documentation", link: "https://aws.amazon.com/architecture/well-architected/" }
+    ],
+
+    "Kotlin": [
+        { title: "Kotlin Official Docs", source: "Kotlin", type: "Documentation", link: "https://kotlinlang.org/docs/getting-started.html" },
+        { title: "Android Developer Guide", source: "Google", type: "Tutorial", link: "https://developer.android.com/courses" },
+        { title: "Kotlin Bootcamp (Google)", source: "Udacity", type: "Course", link: "https://www.udacity.com/course/developing-android-apps-with-kotlin--ud9012" }
+    ],
+
+    "Rust": [
+        { title: "The Rust Book (Free)", source: "Rust Lang", type: "Free Book", link: "https://doc.rust-lang.org/book/" },
+        { title: "Rustlings Exercises", source: "GitHub", type: "Practice", link: "https://github.com/rust-lang/rustlings" },
+        { title: "Rust By Example", source: "Rust Lang", type: "Tutorial", link: "https://doc.rust-lang.org/rust-by-example/" }
+    ],
+
+    "Java": [
+        { title: "Oracle Java Tutorials", source: "Oracle", type: "Documentation", link: "https://docs.oracle.com/javase/tutorial/" },
+        { title: "Java Full Course (YT)", source: "YouTube", type: "Video", link: "https://www.youtube.com/watch?v=eIrMbAQSU34" },
+        { title: "Baeldung Spring Boot", source: "Baeldung", type: "Tutorial", link: "https://www.baeldung.com/spring-boot" },
+        { title: "HackerRank Java", source: "HackerRank", type: "Practice", link: "https://www.hackerrank.com/domains/tutorials/10-days-of-javascript" }
+    ],
+
+    "Go": [
+        { title: "Go Tour (Official)", source: "Go.dev", type: "Tutorial", link: "https://go.dev/tour/welcome/1" },
+        { title: "Go by Example", source: "Go by Example", type: "Tutorial", link: "https://gobyexample.com/" },
+        { title: "Effective Go", source: "Go.dev", type: "Documentation", link: "https://go.dev/doc/effective_go" }
+    ],
+
+    "Cybersecurity": [
+        { title: "TryHackMe", source: "TryHackMe", type: "Practice", link: "https://tryhackme.com/" },
+        { title: "HackTheBox", source: "HackTheBox", type: "Practice", link: "https://www.hackthebox.com/" },
+        { title: "OWASP Top 10", source: "OWASP", type: "Documentation", link: "https://owasp.org/www-project-top-ten/" },
+        { title: "Cybrary Free Courses", source: "Cybrary", type: "Course", link: "https://www.cybrary.it/" }
+    ],
+
+    "Full Stack": [
+        { title: "The Odin Project", source: "Odin Project", type: "Free Course", link: "https://www.theodinproject.com/" },
+        { title: "freeCodeCamp Full Stack", source: "freeCodeCamp", type: "Course", link: "https://www.freecodecamp.org/" },
+        { title: "Full Stack Open (Helsinki)", source: "University of Helsinki", type: "Course", link: "https://fullstackopen.com/en/" },
+        { title: "MDN Web Docs", source: "MDN", type: "Documentation", link: "https://developer.mozilla.org/" }
+    ]
 };

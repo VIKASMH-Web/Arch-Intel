@@ -43,6 +43,10 @@ const PATTERNS: Record<string, { entryPoint: string; paradigm: string; structure
   Kotlin: { entryPoint: 'fun main()', paradigm: 'Multi-paradigm / JVM', structures: ['data classes', 'coroutines', 'extensions', 'sealed classes'] },
 };
 
+function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function countLines(code: string): number {
   return code.split('\n').filter(l => l.trim().length > 0).length;
 }
@@ -149,17 +153,44 @@ export function analyzeCode(code: string, language: string, lambdaFindings: stri
     : (localSecurity.length > 0 ? localSecurity.join(". ") : "No vulnerabilities detected");
 
   const explanation = [
-    `This ${language} program (${lines} active lines) follows a **${langInfo.paradigm}** architecture.`,
+    `## A ${language} Program Analysis`,
     ``,
-    functions.length > 0 ? `**Functions detected (${functions.length}):** ${functions.join(', ')}` : '',
-    classes.length > 0 ? `**Classes/Structs (${classes.length}):** ${classes.join(', ')}` : '',
-    imports.length > 0 ? `**Dependencies (${imports.length}):** ${imports.join(', ')}` : '',
+    `### Introduction`,
     ``,
-    `The program enters through \`${langInfo.entryPoint}\` and utilizes ${langInfo.structures.slice(0, 3).join(', ')} as primary constructs.`,
+    `This is a ${lines}-line ${language} program following a **${langInfo.paradigm}** paradigm. ${
+      functions.length > 0 
+        ? `The program defines ${functions.length} function(s) that work together to accomplish its task.` 
+        : `The program is structured as a single execution block.`
+    } ${
+      imports.length > 0 
+        ? `It leverages ${imports.length} external dependency/dependencies to extend its capabilities.` 
+        : ''
+    }`,
+    ``,
+    `### Key Concepts`,
+    ``,
+    `Before diving into the code, here are the key concepts used:`,
+    ``,
+    ...(langInfo.structures.map((s, i) => `${i + 1}. **${capitalize(s)}:** ${language} ${s} are used in this code to structure the logic and manage data flow.`)),
+    ...(functions.length > 0 ? [`${langInfo.structures.length + 1}. **Functions (${functions.join(', ')}):** Each function serves a specific purpose in the program's execution pipeline.`] : []),
+    ...(imports.length > 0 ? [`${langInfo.structures.length + (functions.length > 0 ? 2 : 1)}. **Dependencies (${imports.slice(0, 4).join(', ')}):** External libraries imported to provide additional functionality.`] : []),
+    ``,
+    `### Code Structure`,
+    ``,
+    `The structure of the provided ${language} code is as follows:`,
+    ``,
+    ...(imports.length > 0 ? [`- **Import Statements:** \`${imports.slice(0, 3).join('`, `')}\` ${imports.length > 3 ? `and ${imports.length - 3} more` : ''} — included to enable required functionality.`] : []),
+    `- **Entry Point:** \`${langInfo.entryPoint}\` — where the program execution begins.`,
+    ...(functions.map(fn => `- **Function \`${fn}()\`:** Defines a reusable block of logic that performs a specific operation.`)),
+    ...(classes.map(cls => `- **Class/Struct \`${cls}\`:** Encapsulates related data and behavior into a single unit.`)),
+    ``,
+    `### Analysis Summary`,
     ``,
     functions.length > 2
-      ? `The codebase shows a **modular** design with ${functions.length} distinct operations, suggesting good separation of concerns.`
-      : `The code is relatively compact. Consider refactoring into smaller functions for better maintainability.`,
+      ? `The codebase demonstrates a **well-modularized** design with ${functions.length} distinct functions, indicating good separation of concerns and maintainability.`
+      : `The code is relatively compact. Consider refactoring into smaller, single-responsibility functions for better readability and testability.`,
+    ``,
+    `**Lines of Code:** ${lines} | **Functions:** ${functions.length} | **Classes:** ${classes.length} | **Dependencies:** ${imports.length}`,
   ].filter(Boolean).join('\n');
 
   const securityReport = [

@@ -9,6 +9,8 @@ import nonTechnicalRoadmaps from '../data/nonTechnicalRoadmaps.json';
 import resourceDatabase from '../data/resourceDatabase.json';
 import toolLibrary from '../data/toolLibrary.json';
 
+import { roadmapResources } from '../data/roadmapResources';
+
 // ============================
 // KEYWORD DETECTION
 // ============================
@@ -159,43 +161,24 @@ export function getResourcesForDomain(domainKey: string, query = '') {
   const q = encodeURIComponent(searchQuery);
   const capQ = capitalize(searchQuery);
 
-  return [
-    {
-      title: `${capQ} Official Documentation`,
-      source: 'Official Docs & DevDocs',
-      type: 'Documentation',
-      link: `https://devdocs.io/search?q=${q}`
-    },
-    {
-      title: `${capQ} Developer Roadmap`,
-      source: 'roadmap.sh',
-      type: 'Roadmap',
-      link: `https://roadmap.sh/search?q=${q}`
-    },
-    {
-      title: `${capQ} Handwritten Notes & Repos`,
-      source: 'GitHub',
-      type: 'Notes',
-      link: `https://github.com/search?q=${q}+handwritten+notes&type=repositories`
-    },
-    {
-      title: `${capQ} Free Text Tutorials & Articles`,
-      source: 'freeCodeCamp',
-      type: 'Tutorial',
-      link: `https://www.freecodecamp.org/news/search/?query=${q}`
-    },
-    {
-      title: `${capQ} Cheatsheet (PDF)`,
-      source: 'Google Search',
-      type: 'Cheatsheet',
-      link: `https://www.google.com/search?q=${q}+cheatsheet+filetype:pdf`
-    },
-    {
-      title: `${capQ} Video Crash Course`,
-      source: 'YouTube',
-      type: 'Video',
-      link: `https://www.youtube.com/results?search_query=${q}+crash+course+full+tutorial`
+  // Try curated real resources first
+  const queryLower = searchQuery.toLowerCase();
+  for (const [key, resources] of Object.entries(roadmapResources)) {
+    if (key === '_defaults') continue;
+    if (queryLower.includes(key.toLowerCase()) || key.toLowerCase().includes(queryLower) || domainKey.includes(key.toLowerCase())) {
+      const defaults = roadmapResources['_defaults'] || [];
+      return [...(resources as any[]), ...defaults].slice(0, 8);
     }
+  }
+
+  // Fallback: dynamic search-based links with real platforms
+  return [
+    { title: `${capQ} Official Documentation`, source: 'DevDocs', type: 'Documentation', link: `https://devdocs.io/search?q=${q}` },
+    { title: `${capQ} Developer Roadmap`, source: 'roadmap.sh', type: 'Roadmap', link: `https://roadmap.sh/search?q=${q}` },
+    { title: `${capQ} Free Course`, source: 'freeCodeCamp', type: 'Tutorial', link: `https://www.freecodecamp.org/news/search/?query=${q}` },
+    { title: `${capQ} Video Crash Course`, source: 'YouTube', type: 'Video', link: `https://www.youtube.com/results?search_query=${q}+crash+course+full+tutorial` },
+    { title: `${capQ} Practice Problems`, source: 'LeetCode', type: 'Practice', link: `https://leetcode.com/problemset/` },
+    { title: `${capQ} Community & Repos`, source: 'GitHub', type: 'Project', link: `https://github.com/search?q=${q}&type=repositories` }
   ];
 }
 
