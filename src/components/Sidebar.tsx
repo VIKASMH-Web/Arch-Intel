@@ -85,13 +85,6 @@ const Sidebar = ({ locale }: { locale: string }) => {
               >
                 {link.label}
               </motion.span>
-              
-              {isActive && (
-                <motion.div 
-                  layoutId="active-dot"
-                  className="absolute right-3 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(255,153,0,0.5)]"
-                />
-              )}
             </Link>
           );
         })}
