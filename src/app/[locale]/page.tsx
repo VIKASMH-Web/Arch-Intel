@@ -131,9 +131,17 @@ export default function Dashboard() {
             
             <div className="bg-slate-50/50 rounded-2xl border border-slate-100 p-4 flex-1 space-y-3 overflow-y-auto max-h-[300px] custom-scrollbar shadow-inner">
               {loadingContests ? (
-                <div className="flex flex-col items-center justify-center h-full gap-3 opacity-40 py-10">
-                   <RotateCcw className="animate-spin text-primary" size={24} />
-                   <span className="text-[10px] font-black font-mono uppercase tracking-[0.2em] text-slate-500">Syncing Global Engines...</span>
+                <div className="flex flex-col items-center justify-center h-full gap-4 py-12">
+                   <div className="relative">
+                      <RotateCcw className="animate-spin text-primary" size={32} />
+                      <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                         <Globe size={14} className="animate-pulse" />
+                      </div>
+                   </div>
+                   <div className="flex flex-col items-center text-center gap-1">
+                      <span className="text-[10px] font-black font-mono uppercase tracking-[0.2em] text-slate-800">Syncing Global Data...</span>
+                      <span className="text-[9px] font-bold text-slate-400 uppercase italic">Please wait, connecting to global contest engines</span>
+                   </div>
                 </div>
               ) : contests.length > 0 ? (
                 contests.map((contest: any, i: number) => {
