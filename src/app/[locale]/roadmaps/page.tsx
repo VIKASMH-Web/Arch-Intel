@@ -198,15 +198,23 @@ const RoadmapPage = () => {
         </div>
         {progress > 0 && totalModules > 0 && (
           <div className="flex flex-col items-end gap-1.5">
-            <div className="flex items-center gap-2">
-              <div className="w-32 h-2 bg-gray-100 rounded-full overflow-hidden border border-border/50">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progress}%` }}
-                  className="h-full bg-gradient-to-r from-primary to-orange-500"
-                />
+            <div className="flex items-center justify-end gap-3 w-full">
+              <button 
+                onClick={() => setCompletedModules([])}
+                className="flex items-center gap-1 text-[9px] font-black text-red-500 hover:text-red-700 uppercase tracking-widest transition-colors bg-red-50 hover:bg-red-100 px-2 py-1 rounded-lg"
+              >
+                <Trash2 size={12} /> Reset
+              </button>
+              <div className="flex items-center gap-2">
+                <div className="w-32 h-2 bg-gray-100 rounded-full overflow-hidden border border-border/50">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    className="h-full bg-gradient-to-r from-primary to-orange-500"
+                  />
+                </div>
+                <span className="text-xs font-black text-primary">{progress}%</span>
               </div>
-              <span className="text-xs font-black text-primary">{progress}%</span>
             </div>
             <span className="text-[10px] text-muted font-black uppercase tracking-tighter">Your Mastery Progress</span>
           </div>
@@ -362,12 +370,57 @@ const RoadmapPage = () => {
                         
                         <div className="flex items-center gap-4 mt-4 pt-4 border-t border-border/50">
                           <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-muted">
-                            <Plus size={10} /> {step.modules?.length || 0} Modules
-                          </div>
-                          <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-muted">
                             <Plus size={10} /> {(step as any).estimated_weeks || 1} Weeks
                           </div>
                         </div>
+
+                        {/* Inline Modules with Green Checkboxes */}
+                        <div className="mt-4 grid grid-cols-1 gap-2">
+                          {step.modules?.map((mod: string) => {
+                            const isDone = completedModules.includes(mod);
+                            return (
+                              <button 
+                                key={mod}
+                                onClick={(e) => { e.stopPropagation(); toggleModule(mod); }}
+                                className={`flex items-center gap-2 p-3 rounded-xl border transition-all text-left ${
+                                  isDone ? 'bg-emerald-50 border-emerald-200' : 'bg-surface border-border/40 hover:border-primary/20'
+                                }`}
+                              >
+                                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                                  isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-gray-300'
+                                }`}>
+                                  {isDone && <CheckCircle2 size={10} />}
+                                </div>
+                                <span className={`text-[11px] font-bold leading-tight ${isDone ? 'text-emerald-800' : 'text-foreground'}`}>{mod}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Inline Resources */}
+                        {resources.length > 0 && (
+                          <div className="mt-4 border-t border-border/30 pt-4">
+                            <h5 className="text-[9px] font-black text-muted uppercase tracking-widest mb-2">Learning Resources</h5>
+                            <div className="space-y-2">
+                              {resources.slice(0, 2).map((res, i) => (
+                                <a 
+                                  key={i} 
+                                  href={res.link} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="flex items-center justify-between p-2.5 bg-gray-50 border border-border/40 rounded-xl hover:border-primary/40 transition-all group"
+                                >
+                                  <div className="flex flex-col">
+                                    <span className="text-[8px] font-black text-primary uppercase">{res.source}</span>
+                                    <span className="text-[10px] font-bold text-slate-800">{res.title}</span>
+                                  </div>
+                                  <ExternalLink size={12} className="text-slate-300 group-hover:text-primary transition-colors" />
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
 
