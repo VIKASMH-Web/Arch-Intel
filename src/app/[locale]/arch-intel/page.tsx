@@ -7,7 +7,7 @@ import
 { 
   Brain, CheckCircle, Workflow, 
   Layers, MessageSquare,
-  Zap, Play, Keyboard, Globe,
+  Zap, Play, Globe,
   Bug, Gauge, RotateCcw, StopCircle,
   Terminal, Search, Bot, Code2, Send, Paperclip,
   AlertTriangle, X, ArrowRight, Mic, User, Sparkles,
@@ -468,13 +468,6 @@ int main() {
 
   const progLangs = ['C', 'C++', 'Java', 'Python', 'JavaScript', 'TypeScript'];
 
-  const shortcuts = [
-    { key: `${modKey}+R`, label: t('shortcutRead'), icon: Play, color: 'from-blue-500 to-cyan-600' },
-    { key: `${modKey}+Enter`, label: 'Run Code', icon: PlayCircle, color: 'from-emerald-500 to-green-600' },
-    { key: `${modKey}+↵`, label: t('shortcutAnalysis'), icon: Zap, color: 'from-amber-500 to-orange-600' },
-    { key: `${modKey}+↓`, label: t('shortcutError'), icon: Bug, color: 'from-emerald-500 to-green-600' },
-    { key: `${modKey}+⇧+R`, label: t('shortcutRepeat'), icon: RotateCcw, color: 'from-pink-500 to-fuchsia-600' },
-  ];
 
   const [showCloudAudit, setShowCloudAudit] = useState(false);
 
@@ -671,25 +664,7 @@ int main() {
         )}
       </AnimatePresence>
 
-      {/* ═══ KEYBOARD SHORTCUTS — ATTRACTIVE PILLS ═══ */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
-        <div className="flex items-center gap-1.5 flex-shrink-0 mr-1">
-          <Keyboard size={16} className="text-primary" />
-          <span className="text-[10px] font-black text-muted uppercase tracking-widest">{t('keyboardTitle')}</span>
-        </div>
-        {shortcuts.map((s, i) => (
-          <div key={i} className="flex items-center gap-2 bg-white border border-border rounded-xl px-3 py-2 shadow-sm hover:shadow-md transition-all flex-shrink-0 group cursor-default">
-            <div className={`w-6 h-6 rounded-lg bg-gradient-to-br ${s.color} flex items-center justify-center shadow-sm`}>
-              <s.icon size={12} className="text-white" />
-            </div>
-            <div className="flex flex-col leading-none">
-              <kbd className="text-[10px] font-black text-foreground">{s.key}</kbd>
-              <span className="text-[9px] font-medium text-muted mt-0.5">{s.label}</span>
-            </div>
-          </div>
-        ))}
 
-      </div>
 
       {/* ═══ MAIN SPLIT: Editor + Output + Chat ═══ */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
