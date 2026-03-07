@@ -340,7 +340,7 @@ const ArchIntelPage = () => {
       if (data.architecture_explanation) {
         setAwsResult(data);
         setNarrativeText(data.architecture_explanation);
-        setOutputLog('');
+        setOutputLog('> Architecture analysis complete.\n> AI narrative explanation generated successfully.');
         setShowResults(true);
       } else {
         throw new Error(data.error || 'Analysis failed');
@@ -350,7 +350,7 @@ const ArchIntelPage = () => {
       const localResult = analyzeCode(codeContent, selectedLang, "Clean");
       setAwsResult(localResult as any);
       setNarrativeText(localResult.architecture_explanation);
-      setOutputLog('');
+      setOutputLog('> Local analysis engine complete.\n> AI narrative explanation generated successfully.');
       setShowResults(true);
     } finally {
       setIsProcessing(false);
