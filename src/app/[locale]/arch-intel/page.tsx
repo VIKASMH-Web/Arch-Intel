@@ -106,16 +106,6 @@ const analyzeCodeForChat = (code: string, question: string, locale: string): str
 };
 
 
-const appLanguages = [
-  { code: 'en', label: 'English' },
-  { code: 'kn', label: 'ಕನ್ನಡ' },
-  { code: 'hi', label: 'हिन्दी' },
-  { code: 'ta', label: 'தமிழ்' },
-  { code: 'te', label: 'తెలుగు' },
-  { code: 'ml', label: 'മലയാളം' },
-  { code: 'mr', label: 'मराठी' },
-];
-
 const ArchIntelPage = () => {
   const t = useTranslations('ArchIntel');
   const locale = useLocale();
@@ -266,16 +256,6 @@ const ArchIntelPage = () => {
     }
   };
 
-
-
-  const handleLanguageChange = (newLocale: string) => {
-    if (typeof window !== 'undefined') {
-      const segments = window.location.pathname.split('/');
-      segments[1] = newLocale;
-      window.location.pathname = segments.join('/');
-    }
-  };
-
   const [isRunning, setIsRunning] = useState(false);
 
   const handleRunCode = async () => {
@@ -417,33 +397,6 @@ const ArchIntelPage = () => {
         </div>
 
         <div className="flex items-center flex-wrap gap-3">
-          {/* Language Switchers */}
-          <div className="flex items-center gap-1.5 bg-surface border border-border px-3 py-1.5 rounded-2xl relative">
-            {appLanguages.map(lang => {
-              const isActive = locale === lang.code;
-              return (
-                <button
-                  key={lang.code}
-                  onClick={() => handleLanguageChange(lang.code)}
-                  className={`relative px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-colors z-10 ${
-                    isActive ? 'text-primary' : 'text-muted/60 hover:text-foreground'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeLangBg"
-                      className="absolute inset-0 bg-white border border-border rounded-lg shadow-sm -z-10"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                  {lang.label}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="h-6 w-px bg-border/60 mx-1" />
-
           {/* AWS Model Selector */}
           <div className="flex items-center gap-2 bg-white border border-border rounded-2xl px-4 py-2 shadow-sm">
             <Bot size={14} className="text-primary" />
