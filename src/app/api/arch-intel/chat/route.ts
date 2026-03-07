@@ -7,7 +7,11 @@ const BEDROCK_MODEL = "amazon.nova-lite-v1:0";
 
 export async function POST(req: Request) {
   try {
-    const { code, question, locale } = await req.json();
+    const { code, question, locale, history = [] } = await req.json();
+
+    const previousContext = history.length > 0 
+      ? `\nPREVIOUS CONVERSATION CONTEXT:\n${history.map((h: any) => `${h.role === 'user' ? 'STUDENT' : 'MENTOR'}: ${h.content}`).join('\n')}\n`
+      : '';
 
     console.log(`[AWS BEDROCK] Chat request: "${question.substring(0, 40)}..."`);
 
@@ -23,7 +27,7 @@ RULES:
 
 CODE:
 ${code}
-
+${previousContext}
 STUDENT QUESTION:
 ${question}
 
