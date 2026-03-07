@@ -24,7 +24,13 @@ const RoadmapPage = () => {
     const savedSteps = localStorage.getItem('roadmap-steps');
     const savedMods = localStorage.getItem('roadmap-completed-mods');
 
-    if (savedSteps) setSteps(JSON.parse(savedSteps));
+    if (savedSteps) {
+      setSteps(JSON.parse(savedSteps));
+      setShowRoadmap(true);
+    } else {
+      // Initially generate Frontend Developer roadmap
+      handleGenerate('Frontend Developer');
+    }
     if (savedMods) setCompletedModules(JSON.parse(savedMods));
   }, []);
 
@@ -116,27 +122,27 @@ const RoadmapPage = () => {
 
   const handleInputChange = (val: string) => {
     setInputValue(val);
-    if (val.length > 0) {
-      const inputWords = val.toLowerCase().split(/\s+/).filter(w => w.length > 0);
-      
-      // Score each suggestion by how many input words it matches
-      const scored = masterSuggestions.map(s => {
-        const sLower = s.toLowerCase();
-        let score = 0;
+    const inputWords = val.toLowerCase().split(/\s+/).filter(w => w.length > 0);
+    
+    // Score each suggestion by how many input words it matches
+    const scored = masterSuggestions.map(s => {
+      const sLower = s.toLowerCase();
+      let score = 0;
+      if (inputWords.length === 0) {
+        score = 1; // Show all if empty
+      } else {
         for (const word of inputWords) {
           if (sLower.includes(word)) score++;
         }
-        return { text: s, score };
-      })
-      .filter(item => item.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 6);
+      }
+      return { text: s, score };
+    })
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 30); // Show more suggestions
 
-      setSuggestions(scored.map(s => s.text));
-      setShowSuggestions(scored.length > 0);
-    } else {
-      setShowSuggestions(false);
-    }
+    setSuggestions(scored.map(s => s.text));
+    setShowSuggestions(true);
   };
 
   const handleGenerate = async (queryOverride?: string) => {
@@ -222,7 +228,7 @@ const RoadmapPage = () => {
                 type="text" 
                 value={inputValue}
                 onChange={(e) => handleInputChange(e.target.value)}
-                onFocus={() => inputValue.length > 0 && setShowSuggestions(true)}
+                onFocus={() => handleInputChange(inputValue)}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
                 placeholder="Enter a job title or skill (e.g. Cloud Architect)..."
@@ -236,7 +242,7 @@ const RoadmapPage = () => {
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute inset-x-0 top-full mt-2 bg-white border-2 border-border/60 rounded-2xl shadow-2xl z-[150] overflow-hidden"
+                    className="absolute inset-x-0 top-full mt-2 bg-white border-2 border-border/60 rounded-2xl shadow-2xl z-[150] overflow-hidden max-h-[400px] overflow-y-auto custom-scrollbar"
                   >
                     <div className="p-2">
                       <div className="px-3 py-1 text-[8px] font-black text-muted uppercase tracking-widest border-b border-border/40 mb-1 flex items-center justify-between">

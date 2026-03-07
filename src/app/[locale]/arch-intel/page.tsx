@@ -928,7 +928,7 @@ int main() {
       <AnimatePresence>
         {showResults && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-10">
               {[
                 { label: t('reliability'), value: awsResult?.reliability || '98%', icon: CheckCircle, color: 'text-green-500', bg: 'bg-green-50' },
                 { label: t('maintainability'), value: awsResult?.maintainability || 'B+', icon: Layers, color: 'text-blue-500', bg: 'bg-blue-50' },
@@ -942,28 +942,6 @@ int main() {
                   </div>
                 </div>
               ))}
-            </div>
-            <div className="bg-white border border-border rounded-2xl overflow-hidden shadow-sm">
-              <div className="p-6 space-y-4">
-                <div className="p-5 bg-green-50 rounded-xl border border-green-100 border-l-4 border-l-green-500">
-                  <h4 className="font-bold text-green-900 flex items-center gap-2 text-sm">
-                    <CheckCircle size={16} /> {awsResult?.readability?.title || "Readability: High"}
-                  </h4>
-                  <p className="text-xs text-green-800 mt-1">{awsResult?.readability?.description || "Variable naming follows convention and functions are modular."}</p>
-                </div>
-                <div className="p-5 bg-orange-50 rounded-xl border border-orange-100 border-l-4 border-l-orange-500">
-                  <h4 className="font-bold text-orange-900 flex items-center gap-2 text-sm">
-                    <Search size={16} /> {awsResult?.anti_pattern?.title || "Potential Anti-Pattern"}
-                  </h4>
-                  <p className="text-xs text-orange-800 mt-1">{awsResult?.anti_pattern?.description || "Consider using early returns for cleaner conditional logic."}</p>
-                </div>
-                <div className="p-5 bg-blue-50 rounded-xl border border-blue-100 border-l-4 border-l-blue-500">
-                  <h4 className="font-bold text-blue-900 flex items-center gap-2 text-sm">
-                    <Gauge size={16} /> {awsResult?.complexity?.title || "Complexity: O(n log n)"}
-                  </h4>
-                  <p className="text-xs text-blue-800 mt-1">{awsResult?.complexity?.description || "Memory overhead averages 14.2 MB. Consider in-place sorting variants."}</p>
-                </div>
-              </div>
             </div>
           </motion.div>
         )}
