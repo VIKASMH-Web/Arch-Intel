@@ -8,6 +8,8 @@ import { usePathname } from 'next/navigation';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import { motion, AnimatePresence } from 'framer-motion';
+
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -33,13 +35,17 @@ const Sidebar = ({ locale }: { locale: string }) => {
   return (
     <aside className="w-64 bg-white border-r h-screen fixed left-0 top-0 p-6 flex flex-col gap-8 shadow-sm">
       <div className="flex items-center gap-3 px-2">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center font-bold text-white text-xl">
+        <motion.div 
+          whileHover={{ rotate: 180 }}
+          transition={{ duration: 0.5 }}
+          className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center font-bold text-white text-xl"
+        >
           A
-        </div>
+        </motion.div>
         <h1 className="text-lg font-bold tracking-tight text-foreground">Arch-Intel</h1>
       </div>
 
-      <nav className="flex-1 flex flex-col gap-1 overflow-y-auto custom-scrollbar pr-1">
+      <nav className="flex-1 flex flex-col gap-1 overflow-y-auto custom-scrollbar pr-1 relative">
         {links.map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href;
@@ -49,20 +55,55 @@ const Sidebar = ({ locale }: { locale: string }) => {
               key={link.href}
               href={link.href}
               className={cn(
-                "sidebar-link",
-                isActive && "active"
+                "relative group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 active:scale-95",
+                isActive ? "text-primary font-bold" : "text-muted hover:text-foreground hover:bg-surface"
               )}
             >
-              <Icon size={18} />
-              <span>{link.label}</span>
+              {isActive && (
+                <motion.div
+                  layoutId="sidebar-active"
+                  className="absolute inset-0 bg-primary/5 border border-primary/10 rounded-xl"
+                  initial={false}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30
+                  }}
+                />
+              )}
+              
+              <motion.div
+                whileHover={{ scale: 1.2, rotate: 10 }}
+                className={cn("relative z-10", isActive && "text-primary")}
+              >
+                <Icon size={18} />
+              </motion.div>
+              
+              <motion.span 
+                className="relative z-10 text-sm"
+                whileHover={{ x: 2 }}
+              >
+                {link.label}
+              </motion.span>
+              
+              {isActive && (
+                <motion.div 
+                  layoutId="active-dot"
+                  className="absolute right-3 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(255,153,0,0.5)]"
+                />
+              )}
             </Link>
           );
         })}
       </nav>
 
-      <div className="mt-auto pt-6 border-t border-border flex flex-col gap-1">
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-auto pt-6 border-t border-border flex flex-col gap-1"
+      >
         <LanguageSelector currentLocale={locale} />
-      </div>
+      </motion.div>
     </aside>
   );
 };
@@ -88,15 +129,24 @@ const LanguageSelector = ({ currentLocale }: { currentLocale: string }) => {
   };
 
   return (
-    <div className="px-2 pb-4">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="px-2 pb-4"
+    >
       <div className="flex items-center gap-2 mb-2 px-1 text-xs font-semibold text-muted uppercase tracking-wider">
-        <Globe size={14} />
+        <motion.div
+          animate={{ rotate: [0, 10, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 4 }}
+        >
+          <Globe size={14} />
+        </motion.div>
         {t('language')}
       </div>
       <select
         value={currentLocale}
         onChange={handleLanguageChange}
-        className="w-full bg-surface border border-border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+        className="w-full bg-surface border border-border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all hover:bg-white"
       >
         {languages.map((lang) => (
           <option key={lang.code} value={lang.code}>
@@ -104,7 +154,7 @@ const LanguageSelector = ({ currentLocale }: { currentLocale: string }) => {
           </option>
         ))}
       </select>
-    </div>
+    </motion.div>
   );
 };
 
