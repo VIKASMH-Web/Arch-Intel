@@ -13,13 +13,13 @@ export async function POST(req: Request) {
 
     // Try Amazon Bedrock (Nova Lite) first
     try {
-      const prompt = `You are an expert Socratic Code Mentor. A student is asking about their code.
+      const prompt = `You are an expert Code Mentor. A student is asking about their code.
 
 RULES:
-1. Use a Socratic approach — guide the student with questions, don't just give answers.
-2. If they ask "what does this do", explain clearly.
-3. Base your answer STRICTLY on the code provided.
-4. Language: ${locale}. No emojis.
+1. Provide direct, highly accurate, and helpful answers based STRICTLY on the code provided.
+2. DO NOT use a Socratic approach. Do not end your response with a question or ask them what they think. 
+3. If they ask "what does this do" or for an explanation, explain clearly step-by-step.
+4. Language: ${locale}. No emojis. Be confident and concise.
 
 CODE:
 ${code}
@@ -27,7 +27,7 @@ ${code}
 STUDENT QUESTION:
 ${question}
 
-Provide a concise, helpful mentor response.`;
+Provide your answer directly:`;
 
       const response = await bedrockClient.send(new InvokeModelCommand({
         modelId: BEDROCK_MODEL,

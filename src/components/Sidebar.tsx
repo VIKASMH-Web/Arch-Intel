@@ -38,9 +38,9 @@ const Sidebar = ({ locale }: { locale: string }) => {
         <motion.div 
           whileHover={{ rotate: 180 }}
           transition={{ duration: 0.5 }}
-          className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center font-bold text-white text-xl"
+          className="w-10 h-10 rounded-2xl bg-[#FFA500] flex items-center justify-center shadow-sm"
         >
-          A
+          <span className="text-white font-[900] text-2xl font-sans">A</span>
         </motion.div>
         <h1 className="text-lg font-bold tracking-tight text-foreground">Arch-Intel</h1>
       </div>

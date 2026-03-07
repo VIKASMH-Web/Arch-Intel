@@ -417,32 +417,33 @@ export function generateChatResponse(code: string, question: string): string {
   const q = question.toLowerCase();
 
   if (q.includes('what') && (q.includes('does') || q.includes('do'))) {
-    const parts = [];
-    parts.push(`Great question! Let me walk you through this code.`);
-    if (functions.length > 0) parts.push(`\nThe code defines ${functions.length} function(s): **${functions.join(', ')}**.`);
-    if (classes.length > 0) parts.push(`It also uses ${classes.length} class(es)/struct(s): **${classes.join(', ')}**.`);
-    parts.push(`\nThink about it this way: what is the *entry point*? Follow the execution flow from there. What data goes in, and what comes out?`);
-    return parts.join('');
+    let response = "Based on the code structure, here is what this code does:\n\n";
+    if (classes.length > 0) response += `- It defines ${classes.length} class(es) (${classes.join(', ')}).\n`;
+    if (functions.length > 0) response += `- It defines ${functions.length} function(s) (${functions.join(', ')}) to handle the core logic.\n`;
+    const loops = (code.match(/\b(for|while|do)\b/g) || []).length;
+    if (loops > 0) response += `- It iterates exactly ${loops} time(s) to process data.\n`;
+    response += "\nIt executes line-by-line starting from the entry point block or top-level statements to manipulate variables and arrive at the calculated output.";
+    return response;
   }
 
   if (q.includes('improve') || q.includes('better') || q.includes('optimize')) {
-    return `Here are some directions to think about:\n\n1. **Modularity** — Could any of your ${functions.length} functions be broken into smaller, single-responsibility units?\n2. **Error Handling** — What happens if an input is unexpected?\n3. **Performance** — Are there any loops or operations that could be optimized?\n\nWhich of these resonates most with what you're trying to improve?`;
+    return "To optimize this code:\n\n1. Ensure you have proper error handling around inputs.\n2. Limit nested loops to prevent your algorithmic complexity from reaching O(n²).\n3. Consider moving repetitive operations inside `"+ (functions[0] || "a new isolated function") +"` into distinct helper functions to improve testability.";
   }
 
   if (q.includes('bug') || q.includes('error') || q.includes('fix') || q.includes('wrong')) {
     const security = runLocalSecurityScan(code);
     if (security.length > 0) {
-      return `I found some potential issues:\n\n${security.map((s, i) => `${i + 1}. ${s}`).join('\n')}\n\nDo any of these match the bug you're experiencing?`;
+      return `Potential vulnerabilities detected that might be causing unexpected behavior:\n\n${security.map((s, i) => `${i + 1}. ${s}`).join('\n')}`;
     }
-    return `I don't see obvious bugs from a static analysis perspective. Can you describe the specific error or unexpected behavior? That would help me narrow down the issue.`;
+    return "Syntax looks clean on a surface level. If you're encountering an error, ensure your variables are populated correctly before they are passed into any functions. Double-check your types and null-safety.";
   }
 
   if (q.includes('explain') || q.includes('how')) {
-    return `Let me guide you through the thinking process:\n\n1. **Start at the entry point** — where does execution begin?\n2. **Trace the data flow** — what variables are created and how do they change?\n3. **Identify the output** — what is the final result?\n\n${functions.length > 0 ? `Your code has these key functions: **${functions.join(', ')}**. Try tracing each one individually.` : 'Try adding some print/log statements to trace the execution.'}\n\nWhat specific part would you like me to drill deeper into?`;
+    return `Let's break down how this executes:\n\n1. The execution context initializes your ${classes.length > 0 ? "classes" : "variables"}.\n2. Operations inside ${functions.length > 0 ? functions.join(', ') : "the main execution flow"} take in their arguments and process the state.\n3. The control flow statements resolve conditionals/loops to finalize the result.`;
   }
 
-  // Default Socratic response
-  return `That's a thoughtful question! Let me turn it back to you with some guidance:\n\n${functions.length > 0 ? `Your code has ${functions.length} function(s). ` : ''}Consider these angles:\n\n1. What is the *single responsibility* of each part of your code?\n2. If you had to explain this code to a junior developer, which part would need the most explanation?\n3. How would this code behave with edge case inputs?\n\nTry thinking through these, and let me know which direction you'd like to explore!`;
+  // Default authoritative response
+  return `This is a functional implementation. You have defined ${functions.length} core function(s). Keep optimizing memory allocation by avoiding global variables.`;
 }
 
 export function generateSimulatorResponse(scenario: string, locale: string) {

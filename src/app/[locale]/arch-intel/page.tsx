@@ -300,6 +300,11 @@ const ArchIntelPage = () => {
       } else {
         const timestamp = new Date(data.timestamp).toLocaleTimeString();
         setOutputLog(`[${timestamp}] Arch-Intel Execution Result:\n------------------\n${data.output || '(No Output)'}\n------------------\nExecution Status: Success`);
+        
+        // Auto-update narrative explanation for the executed code
+        const localResult = analyzeCode(codeContent, selectedLang, "Clean");
+        setNarrativeText(localResult.architecture_explanation);
+        setShowResults(true);
       }
     } catch (error: any) {
       setOutputLog(`> API Error: Failed to connect to Arch-Intel runtime.`);
