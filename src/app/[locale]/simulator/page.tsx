@@ -11,12 +11,43 @@ const SimulatorPage = () => {
   const [result, setResult] = useState<any>(null);
   const locale = useLocale();
 
+  const [scenario, setScenario] = useState("I completed AWS Advanced Networking");
+  const [moduleCount, setModuleCount] = useState(0);
+
   // Persistence: Load on mount
   useEffect(() => {
     const savedResult = localStorage.getItem('sim-result');
     if (savedResult) {
       setResult(JSON.parse(savedResult));
       setStep(5); // Show completed state if result exists
+    }
+
+    // Connect to Roadmap Progress
+    let skillPath = "AWS Advanced Networking";
+    let completed = 0;
+    try {
+      const savedMods = localStorage.getItem('roadmap-completed-mods');
+      const savedSkills = localStorage.getItem('roadmap-skills');
+      
+      if (savedSkills) {
+        const skills = JSON.parse(savedSkills);
+        if (skills.length > 0) skillPath = skills[0];
+      }
+      
+      if (savedMods) {
+        const mods = JSON.parse(savedMods);
+        completed = mods.length;
+        if (completed > 0) {
+          setModuleCount(completed);
+          setScenario(`I have mastered ${completed} core technical modules towards becoming a ${skillPath.toUpperCase()} professional.`);
+        } else {
+           setScenario(`I am beginning my journey to become a ${skillPath.toUpperCase()} professional.`);
+        }
+      } else {
+        setScenario(`I am striving to become a ${skillPath} professional.`);
+      }
+    } catch (e) {
+      console.log("Error reading roadmap data", e);
     }
   }, []);
 
@@ -38,7 +69,7 @@ const SimulatorPage = () => {
       const response = await fetch('/api/simulator/project', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ scenario: "I completed AWS Advanced Networking", locale })
+        body: JSON.stringify({ scenario, locale })
       });
       
       const data = await response.json();
@@ -76,8 +107,8 @@ const SimulatorPage = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
                     <div className="flex flex-col gap-2">
                         <span className="text-sm font-bold text-primary uppercase tracking-[0.2em]">Scenario Input</span>
-                        <h3 className="text-3xl font-bold italic">"I completed AWS Advanced Networking"</h3>
-                        <p className="text-muted">Analyzing 42 micro-modules and 1 certification.</p>
+                        <h3 className="text-xl md:text-3xl font-bold italic text-slate-800">"{scenario}"</h3>
+                        <p className="text-muted">Analyzing {moduleCount > 0 ? `${moduleCount} progressive modules` : 'initial roadmap baseline'} into realtime market value.</p>
                     </div>
                     <button 
                         onClick={startSimulation}

@@ -27,38 +27,26 @@ export async function POST(req: Request) {
     console.log(`[AWS PIPELINE] Analysis started | TraceID: ${timestamp} | Lang: ${language}`);
 
     // ──────────────────────────────────────────────────────
-    // STEP 1: AMAZON S3 — Archive source code (REAL)
+    // STEP 1 & 2: AMAZON S3 & LAMBDA (Background execution to prevent lag)
     // ──────────────────────────────────────────────────────
-    try {
-      await s3Client.send(new PutObjectCommand({
-        Bucket: S3_BUCKET,
-        Key: `analysis/${userId}/${timestamp}.txt`,
-        Body: code,
-        ContentType: "text/plain",
-      }));
-      console.log(`[AMAZON S3] ✅ Code archived to s3://${S3_BUCKET}/analysis/${userId}/${timestamp}.txt`);
-    } catch (e: any) {
-      console.warn(`[AMAZON S3] ⚠️ Archive skipped: ${e.message?.substring(0, 80)}`);
-    }
+    s3Client.send(new PutObjectCommand({
+      Bucket: S3_BUCKET,
+      Key: `analysis/${userId}/${timestamp}.txt`,
+      Body: code,
+      ContentType: "text/plain",
+    })).catch(e => console.warn(`[AMAZON S3] ⚠️ Archive skipped: ${e.message?.substring(0, 80)}`));
 
-    // ──────────────────────────────────────────────────────
-    // STEP 2: AWS LAMBDA — Security Scanner (REAL)
-    // ──────────────────────────────────────────────────────
-    try {
-      const lambdaResponse = await lambdaClient.send(new LambdaInvokeCommand({
-        FunctionName: process.env.LAMBDA_FUNCTION_NAME || "ArchIntelSecurityScanner",
-        Payload: JSON.stringify({ code }),
-      }));
+    lambdaClient.send(new LambdaInvokeCommand({
+      FunctionName: process.env.LAMBDA_FUNCTION_NAME || "ArchIntelSecurityScanner",
+      Payload: JSON.stringify({ code }),
+    })).then(lambdaResponse => {
       if (lambdaResponse.Payload) {
         const payload = JSON.parse(new TextDecoder().decode(lambdaResponse.Payload));
         securityFindings = payload.findings?.length > 0 
           ? payload.findings.join(", ") 
           : "Clean — No vulnerabilities found";
-        console.log(`[AWS LAMBDA] ✅ Scan complete: ${securityFindings}`);
       }
-    } catch (e: any) {
-      console.warn(`[AWS LAMBDA] ⚠️ Scanner not deployed: ${e.message?.substring(0, 80)}`);
-    }
+    }).catch(e => console.warn(`[AWS LAMBDA] ⚠️ Scanner skipped: ${e.message?.substring(0, 80)}`));
 
     // ──────────────────────────────────────────────────────
     // STEP 3: AMAZON BEDROCK — AI Reasoning (Amazon Nova Lite)
@@ -87,7 +75,7 @@ IMPORTANT: In architecture_explanation, explain EVERY line of the actual code. Q
 
 Output language: ${locale}. Code:\n${code}`;
 
-      const bedrockResponse = await bedrockClient.send(new InvokeModelCommand({
+      const bedrockPromise = bedrockClient.send(new InvokeModelCommand({
         modelId: BEDROCK_MODEL,
         contentType: "application/json",
         accept: "application/json",
@@ -97,6 +85,12 @@ Output language: ${locale}. Code:\n${code}`;
           messages: [{ role: "user", content: [{ text: prompt }] }],
         }),
       }));
+      
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Bedrock Timed out after 2.5s')), 2500)
+      );
+      
+      const bedrockResponse = await Promise.race([bedrockPromise, timeoutPromise]) as any;
 
       const responseBody = JSON.parse(new TextDecoder().decode(bedrockResponse.body));
       const text = responseBody.output.message.content[0].text;
