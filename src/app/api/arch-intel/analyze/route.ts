@@ -64,12 +64,12 @@ export async function POST(req: Request) {
     // STEP 3: AMAZON BEDROCK — AI Reasoning (Amazon Nova Lite)
     // ──────────────────────────────────────────────────────
     try {
-      const prompt = `You are an expert software architect. Analyze this ${language} code for a student.
+      const prompt = `You are an expert code explainer (like codeconvert.ai). Analyze this ${language} code for a student.
 Security Scanner Results: ${securityFindings}
 
 Respond ONLY with a valid JSON object (no markdown, no code fences):
 {
-  "architecture_explanation": "Detailed explanation of how the code is structured, its design patterns, data flow, and logic.",
+  "architecture_explanation": "Use markdown format. Start with '## ${language} Code Explanation', then '### High-Level Overview' (1 paragraph overview), then '### Detailed Explanation' (numbered list, each item quoting the ACTUAL code line in backticks and explaining what it does with bullet points), then '### Additional Notes and Best Practices' (bullet points), then '### Summary' (bullet points).",
   "security_analysis": "Include the scanner findings above AND your own deep security assessment.",
   "mermaid_diagram": "A Mermaid.js flowchart diagram (graph TD format) representing the code's logic flow.",
   "learning_roadmap": ["Step 1", "Step 2", "Step 3", "Step 4"],
@@ -82,6 +82,8 @@ Respond ONLY with a valid JSON object (no markdown, no code fences):
   "anti_pattern": { "title": "Headline", "description": "Short explanation" },
   "complexity": { "title": "Big O notation", "description": "Brief reasoning" }
 }
+
+IMPORTANT: In architecture_explanation, explain EVERY line of the actual code. Quote each real line verbatim in backticks. Do NOT use generic explanations.
 
 Output language: ${locale}. Code:\n${code}`;
 

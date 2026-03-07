@@ -244,6 +244,10 @@ int main() {
 
   const [showResults, setShowResults] = useState(false);
   const [outputLog, setOutputLog] = useState('');
+  const [stdinInput, setStdinInput] = useState('');
+
+  // Detect if code needs user input
+  const needsInput = /scanf|cin\s*>>|input\s*\(|readline|gets\s*\(|Scanner|BufferedReader|System\.in/.test(codeContent);
 
   const [narrativeText, setNarrativeText] = useState('');
   const [awsResult, setAwsResult] = useState<{
@@ -369,7 +373,8 @@ int main() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           language: selectedLang,
-          code: codeContent
+          code: codeContent,
+          input: stdinInput
         }),
       });
 
@@ -718,8 +723,24 @@ int main() {
                 <div className="w-3 h-3 rounded-full bg-green-500/80" />
               </div>
             </div>
-            <div className="flex-1 p-5 min-h-[450px] max-h-[450px] overflow-y-auto custom-scrollbar">
-              <pre className="font-mono text-sm text-emerald-300 whitespace-pre-wrap leading-relaxed">{outputLog}</pre>
+            <div className="flex-1 p-5 min-h-[450px] max-h-[450px] overflow-y-auto custom-scrollbar flex flex-col">
+              {/* STDIN Input Terminal - shows only when code needs input */}
+              {needsInput && (
+                <div className="mb-3 bg-gray-900 border border-yellow-500/30 rounded-xl overflow-hidden">
+                  <div className="px-3 py-1.5 bg-yellow-500/10 border-b border-yellow-500/20 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
+                    <span className="text-[9px] font-black text-yellow-400 uppercase tracking-widest">stdin — Program Input</span>
+                  </div>
+                  <textarea
+                    value={stdinInput}
+                    onChange={(e) => setStdinInput(e.target.value)}
+                    placeholder="Enter input values here (one per line)...&#10;Example: 5&#10;Hello"
+                    className="w-full bg-transparent text-yellow-300 font-mono text-xs p-3 resize-none outline-none placeholder:text-yellow-600/50 min-h-[60px] max-h-[80px]"
+                    rows={3}
+                  />
+                </div>
+              )}
+              <pre className="font-mono text-sm text-emerald-300 whitespace-pre-wrap leading-relaxed flex-1">{outputLog}</pre>
               {isProcessing && (
                 <div className="flex items-center gap-2 mt-4">
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-ping" />
