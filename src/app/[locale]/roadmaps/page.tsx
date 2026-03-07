@@ -51,8 +51,33 @@ const RoadmapPage = () => {
   const [resources, setResources] = useState<any[]>([]);
   const [tools, setTools] = useState<any[]>([]);
 
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  const masterSuggestions = [
+    'Python Developer', 'Python Data Science', 'Python Automation', 'Product Manager',
+    'Project Manager', 'Pentesting Specialist', 'PHP Backend', 'PostgreSQL Admin',
+    'Frontend Developer', 'Backend Architect', 'Cloud Security Engineer', 
+    'DevOps Specialist', 'Full Stack Developer', 'Data Analyst', 
+    'Machine Learning Engineer', 'UI/UX Designer', 'Mobile App Dev'
+  ];
+
+  const handleInputChange = (val: string) => {
+    setInputValue(val);
+    if (val.length > 0) {
+      const filtered = masterSuggestions.filter(s => 
+        s.toLowerCase().includes(val.toLowerCase())
+      ).slice(0, 5);
+      setSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
   const handleGenerate = async (queryOverride?: string) => {
     setIsGenerating(true);
+    setShowSuggestions(false);
     try {
       const query = queryOverride || inputValue;
       const response = await fetch('/api/roadmaps/generate', {
@@ -121,17 +146,59 @@ const RoadmapPage = () => {
         
         <div className="relative z-10 space-y-6">
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 relative">
             <div className="flex-1 relative group">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-primary transition-colors" size={20} />
               <input 
                 type="text" 
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(e) => handleInputChange(e.target.value)}
+                onFocus={() => inputValue.length > 0 && setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
                 placeholder="Enter a job title or skill (e.g. Cloud Architect)..."
                 className="w-full bg-surface border-2 border-border/40 rounded-2xl pl-14 pr-4 py-4 focus:outline-none focus:border-primary/40 focus:bg-white transition-all font-black text-sm tracking-tight placeholder:text-muted/30"
               />
+
+              {/* Autocomplete Dropdown */}
+              <AnimatePresence>
+                {showSuggestions && suggestions.length > 0 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    className="absolute inset-x-0 top-full mt-2 bg-white border-2 border-border/60 rounded-2xl shadow-2xl z-[150] overflow-hidden"
+                  >
+                    <div className="p-2">
+                      <div className="px-3 py-1 text-[8px] font-black text-muted uppercase tracking-widest border-b border-border/40 mb-1 flex items-center justify-between">
+                        <span>Online Search Suggestions</span>
+                        <div className="flex gap-1">
+                          <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
+                          <span className="text-emerald-600">Live</span>
+                        </div>
+                      </div>
+                      {suggestions.map((s, i) => (
+                        <button
+                          key={i}
+                          onClick={() => {
+                            setInputValue(s);
+                            handleGenerate(s);
+                          }}
+                          className="w-full text-left px-4 py-3 hover:bg-surface rounded-xl flex items-center gap-3 transition-colors group/item"
+                        >
+                          <Search size={14} className="text-muted group-hover/item:text-primary transition-colors" />
+                          <span className="text-sm font-bold text-foreground group-hover/item:text-primary transition-colors">
+                            {s.split(new RegExp(`(${inputValue})`, 'gi')).map((part, idx) => (
+                              part.toLowerCase() === inputValue.toLowerCase() ? 
+                                <span key={idx} className="text-primary underline decoration-2 underline-offset-4">{part}</span> : part
+                            ))}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <button 
               onClick={() => handleGenerate()}
