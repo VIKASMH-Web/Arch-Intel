@@ -1,4 +1,4 @@
-# 🚀 Arch-Intelligence / Learning Catalyst
+# 🚀 Arch-Intel
 
 An **AI-powered architectural code analysis and developer mentoring platform** built entirely on **AWS serverless infrastructure**.
 
