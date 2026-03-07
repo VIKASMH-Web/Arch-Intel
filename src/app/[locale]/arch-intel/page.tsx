@@ -7,7 +7,7 @@ import
 { 
   Brain, CheckCircle, Workflow, 
   Layers, MessageSquare,
-  Zap, Play, Volume2, Keyboard, Globe,
+  Zap, Play, Keyboard, Globe,
   Bug, Gauge, RotateCcw, StopCircle,
   Terminal, Search, Bot, Code2, Send, Paperclip,
   AlertTriangle, X, ArrowRight, Mic, User, Sparkles,
@@ -244,7 +244,7 @@ int main() {
 
   const [showResults, setShowResults] = useState(false);
   const [outputLog, setOutputLog] = useState('Terminal idle — Waiting for execution...');
-  const [isSpeaking, setIsSpeaking] = useState(false);
+
   const [narrativeText, setNarrativeText] = useState('');
   const [awsResult, setAwsResult] = useState<{
     architecture_explanation?: string;
@@ -347,26 +347,7 @@ int main() {
     }
   };
 
-  const speak = (text: string) => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      const voiceMap: Record<string, string> = { en: 'en-US', hi: 'hi-IN', kn: 'kn-IN', ta: 'ta-IN', te: 'te-IN', ml: 'ml-IN', mr: 'mr-IN' };
-      utterance.lang = voiceMap[locale] || 'en-US';
-      utterance.rate = 0.95;
-      utterance.pitch = 1.05;
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      window.speechSynthesis.speak(utterance);
-    }
-  };
 
-  const stopSpeaking = () => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-    }
-  };
 
   const handleLanguageChange = (newLocale: string) => {
     if (typeof window !== 'undefined') {
@@ -474,7 +455,7 @@ int main() {
       
       const data = await response.json();
       setChatMessages(prev => [...prev, { role: 'ai', content: data.content }]);
-      speak(data.content);
+
     } catch (error) {
       console.error("Chat API failed", error);
       const errorMsg = "I'm having trouble connecting to my AWS brain. Please check your cloud connectivity.";
@@ -488,10 +469,8 @@ int main() {
   const progLangs = ['C', 'C++', 'Java', 'Python', 'JavaScript', 'TypeScript'];
 
   const shortcuts = [
-    { key: `${modKey}+L`, label: t('shortcutExplain'), icon: Volume2, color: 'from-violet-500 to-purple-600' },
     { key: `${modKey}+R`, label: t('shortcutRead'), icon: Play, color: 'from-blue-500 to-cyan-600' },
     { key: `${modKey}+Enter`, label: 'Run Code', icon: PlayCircle, color: 'from-emerald-500 to-green-600' },
-    { key: `${modKey}+S`, label: t('shortcutStop'), icon: StopCircle, color: 'from-red-500 to-rose-600' },
     { key: `${modKey}+↵`, label: t('shortcutAnalysis'), icon: Zap, color: 'from-amber-500 to-orange-600' },
     { key: `${modKey}+↓`, label: t('shortcutError'), icon: Bug, color: 'from-emerald-500 to-green-600' },
     { key: `${modKey}+⇧+R`, label: t('shortcutRepeat'), icon: RotateCcw, color: 'from-pink-500 to-fuchsia-600' },
@@ -709,11 +688,7 @@ int main() {
             </div>
           </div>
         ))}
-        {isSpeaking && (
-          <button onClick={stopSpeaking} className="ml-auto flex items-center gap-1.5 bg-red-500 text-white px-4 py-2 rounded-xl text-[10px] font-bold shadow-lg animate-pulse flex-shrink-0">
-            <StopCircle size={12} /> Stop Voice
-          </button>
-        )}
+
       </div>
 
       {/* ═══ MAIN SPLIT: Editor + Output + Chat ═══ */}
