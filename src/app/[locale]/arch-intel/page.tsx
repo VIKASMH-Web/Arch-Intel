@@ -243,7 +243,7 @@ int main() {
   }, [selectedLang]);
 
   const [showResults, setShowResults] = useState(false);
-  const [outputLog, setOutputLog] = useState('Terminal idle — Waiting for execution...');
+  const [outputLog, setOutputLog] = useState('');
 
   const [narrativeText, setNarrativeText] = useState('');
   const [awsResult, setAwsResult] = useState<{
