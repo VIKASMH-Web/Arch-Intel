@@ -1,0 +1,9 @@
+{
+  "development": [
+    { "name": "VS Code", "tags": ["all", "technical"] },
+    { "name": "Git", "tags": ["all", "technical"] }
+  ],
+  "design": [
+    { "name": "Figma", "tags": ["design", "ui_ux_design"] }
+  ]
+}

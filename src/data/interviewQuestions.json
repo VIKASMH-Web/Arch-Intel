@@ -1,0 +1,37 @@
+{
+  "backend_developer": [
+    { "id": 1, "question": "Explain the difference between SQL and NoSQL databases. When would you use each?" },
+    { "id": 2, "question": "Describe the lifecycle of an HTTP request from the client to the server and back." },
+    { "id": 3, "question": "What is a microservices architecture, and what are its pros and cons?" },
+    { "id": 4, "question": "How do you handle authentication and authorization in a distributed system?" },
+    { "id": 5, "question": "Explain the concept of CAP theorem and how it applies to distributed databases." }
+  ],
+  "frontend_developer": [
+    { "id": 1, "question": "What is the Virtual DOM, and how does React use it to optimize performance?" },
+    { "id": 2, "question": "Explain the difference between state and props in a React component." },
+    { "id": 3, "question": "Describe the CSS Box Model and how it affects layout." },
+    { "id": 4, "question": "How do you handle asynchronous operations in JavaScript (e.g., promises, async/await)?" },
+    { "id": 5, "question": "What are Web Workers, and when would you use them?" }
+  ],
+  "data_scientist": [
+    { "id": 1, "question": "What is the difference between supervised and unsupervised learning?" },
+    { "id": 2, "question": "Explain the concept of overfitting and how to prevent it." },
+    { "id": 3, "question": "What is a p-value, and how do you interpret it in hypothesis testing?" },
+    { "id": 4, "question": "Describe the difference between L1 and L2 regularization." },
+    { "id": 5, "question": "How do you handle missing or imbalanced data in a machine learning project?" }
+  ],
+  "product_manager": [
+    { "id": 1, "question": "How do you prioritize features for a product roadmap?" },
+    { "id": 2, "question": "Describe a time you had to make a difficult product decision based on data." },
+    { "id": 3, "question": "What are the key metrics you would track to measure the success of a new product launch?" },
+    { "id": 4, "question": "How do you balance user needs with business goals when designing a product?" },
+    { "id": 5, "question": "Walk me through how you would design a new mobile app for a niche market." }
+  ],
+  "general": [
+    { "id": 1, "question": "Tell me about a time you faced a difficult challenge and how you overcame it." },
+    { "id": 2, "question": "What are your greatest professional strengths and weaknesses?" },
+    { "id": 3, "question": "Describe a conflict you had with a coworker and how you resolved it." },
+    { "id": 4, "question": "Why are you interested in this position and our company?" },
+    { "id": 5, "question": "Where do you see yourself in five years?" }
+  ]
+}

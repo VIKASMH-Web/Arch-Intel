@@ -1,0 +1,18 @@
+{
+  "hr_manager": {
+    "label": "HR Manager",
+    "type": "non-technical",
+    "stages": [
+      { "title": "HR Fundamentals", "topics": ["Recruitment", "Employee Relations", "Payroll"], "duration": "4 weeks" },
+      { "title": "Strategic HR", "topics": ["Performance Management", "Talent Acquisition"], "duration": "6 weeks" }
+    ]
+  },
+  "_default": {
+    "label": "Professional",
+    "type": "non-technical",
+    "stages": [
+      { "title": "Fundamentals", "topics": ["Basic Concepts", "Industry Overview"], "duration": "2 weeks" },
+      { "title": "Core Skills", "topics": ["Management", "Communication", "Workflow"], "duration": "4 weeks" }
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "Dashboard": {
+    "welcome": "नमस्कार, विकास 👋",
+    "ready": "तुमची कौशल्ये सुधारण्यास तयार आहात का?",
+    "progress": "प्रगती",
+    "milestone": "पुढील टप्पा",
+    "salaryPotential": "आर्थिक प्रभाव पूर्वावलोकन",
+    "earningPotential": "AWS प्रगत नेटवर्किंग पूर्ण केल्यास तुमची कमाईची क्षमता ₹3.2 LPA वाढू शकते."
+  },
+  "Common": {
+    "dashboard": "डॅशबोर्ड",
+    "roadmaps": "माझे रोडमॅप्स",
+    "archIntelligence": "आर्च-इंटेलिजन्स",
+    "financialSimulator": "आर्थिक सिम्युलेटर",
+    "progress": "प्रगती",
+    "uploads": "माझे अपलोड्स",
+    "language": "भाषा निवडक",
+    "settings": "सेटिंग्ज",
+    "security": "सुरक्षा आणि गोपनीयता",
+    "accessibility": "अॅक्सेसिबिलिटी",
+    "beginner": "नवशिक्या",
+    "intermediate": "मध्यम",
+    "advanced": "प्रगत",
+    "architect": "आर्किटेक्ट"
+  },
+  "Roadmap": {
+    "title": "स्मार्ट टेक स्टॅक रोडमॅप इंजिन",
+    "learn": "मला शिकायचे आहे:",
+    "generate": "रोडमॅप तयार करा",
+    "modules": "मायक्रो-मॉड्यूल्स",
+    "certifications": "प्रमाणपत्रे",
+    "resources": "संसाधने",
+    "handsOn": "प्रायोगिक प्रकल्प"
+  },
+  "Security": {
+    "title": "सुरक्षा आणि विश्वास",
+    "mode": "खाजगी क्लाउड मोड",
+    "modeDesc": "कोड तुमच्या VPC बाहेर जात नाही. शून्य प्रशिक्षण डेटा धोरण.",
+    "check": "स्थानिक-सुसंगतता तपासणी",
+    "status": "PR साठी तयार",
+    "compliance": "अनुपालन स्कोअर"
+  },
+  "Accessibility": {
+    "title": "समावेशी डिझाइन",
+    "voiceMode": "व्हॉइस असिस्टंट मोड",
+    "voiceModeDesc": "स्क्रीन रीडर आणि मौखिक प्रतिसादासाठी इंटरफेस ऑप्टिमाइझ करते.",
+    "describeArch": "आर्किटेक्चरचे वर्णन करा",
+    "describeArchDesc": "AI तांत्रिक रेखाचित्राचे तपशीलवार ऑडिओ वर्णन तयार करते.",
+    "highContrast": "हाय कॉन्ट्रास्ट मोड",
+    "fontSize": "डायनॅमिक टेक्स्ट स्केलिंग"
+  },
+  "ArchIntel": {
+    "title": "Arch-Intelligence कोअर",
+    "subtitle": "AI-चालित कोड इंटेलिजन्स इंजिन",
+    "description": "डेव्हलपर ग्रोथ ट्रॅक करताना तुमचा कोड विश्लेषित करा, ऑप्टिमाइझ करा आणि सुधारित करा.",
+    "uploadTitle": "सोर्स कोड अपलोड करा",
+    "uploadDesc": "खोल विश्लेषणासाठी फाइल्स (.c, .cpp, .java, .py, .js, .ts) निवडा.",
+    "analyzeBtn": "कोड इंजिनचे विश्लेषण करा",
+    "processingS3": "रिअल-टाइम कोड सिंटॅक्स विश्लेषण",
+    "processingBedrock": "AI-चालित ऑप्टिमायझेशन लॉजिक मॅपिंग",
+    "logicDiagram": "लॉजिक वॉकथ्रू",
+    "codeReview": "AI कोड रिव्ह्यू",
+    "performance": "परफॉर्मन्स मेट्रिक्स",
+    "debugger": "डीबग मदत",
+    "verbalize": "लॉजिक समजावून सांगा",
+    "socraticTitle": "कोड मेंटर चॅट",
+    "keyboardTitle": "स्मार्ट ॲक्सेसिबिलिटी कीबोर्ड",
+    "shortcutExplain": "लॉजिक समजावून सांगा (निवडलेले)",
+    "shortcutRead": "संपूर्ण कोड वाचा",
+    "shortcutStop": "भाषण थांबवा",
+    "shortcutAnalysis": "AI विश्लेषण चालवा",
+    "shortcutError": "पुढील त्रुटीवर जा",
+    "shortcutRepeat": "शेवटचा फीडबॅक पुन्हा सांगा"
+  }
+}

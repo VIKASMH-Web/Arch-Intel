@@ -1,0 +1,30 @@
+{
+  "python": {
+    "label": "Python Developer",
+    "type": "technical",
+    "stages": [
+      { "title": "Python Basics", "topics": ["Variables & Data Types", "Control Flow", "Functions", "String Manipulation"], "duration": "2-3 weeks" },
+      { "title": "OOP & Data Structures", "topics": ["Classes & Objects", "Inheritance", "Lists, Dicts, Sets", "Comprehensions"], "duration": "3-4 weeks" },
+      { "title": "Libraries & Ecosystem", "topics": ["NumPy", "Pandas", "Matplotlib", "Virtual Environments & pip"], "duration": "3-4 weeks" },
+      { "title": "Projects & Applications", "topics": ["Web Scraping (BeautifulSoup)", "REST API (Flask/FastAPI)", "Automation Scripts", "Database Integration"], "duration": "4-6 weeks" }
+    ]
+  },
+  "javascript": {
+    "label": "JavaScript Developer",
+    "type": "technical",
+    "stages": [
+      { "title": "JS Fundamentals", "topics": ["Variables", "Data Types", "Operators", "Control Flow"], "duration": "2 weeks" },
+      { "title": "DOM & Browser APIs", "topics": ["Selectors", "Events", "Storage", "Fetch"], "duration": "3 weeks" },
+      { "title": "Advanced JS", "topics": ["Async/Await", "Promises", "Closures", "Prototypes"], "duration": "4 weeks" }
+    ]
+  },
+  "_default": {
+    "label": "Developer",
+    "type": "technical",
+    "stages": [
+      { "title": "Fundamentals", "topics": ["Environment Setup", "Basic Syntax", "Input/Output"], "duration": "1 week" },
+      { "title": "Core Concepts", "topics": ["Functions", "Data Structures", "Error Handling"], "duration": "3 weeks" },
+      { "title": "Tools & Ecosystem", "topics": ["Package Managers", "Build Tools", "Testing"], "duration": "2 weeks" }
+    ]
+  }
+}
