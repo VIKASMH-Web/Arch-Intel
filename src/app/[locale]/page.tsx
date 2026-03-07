@@ -9,7 +9,13 @@ export default function Dashboard() {
   const t = useTranslations('Dashboard');
   const common = useTranslations('Common');
 
-  const [contests, setContests] = React.useState<any[]>([]);
+  const FALLBACK_CONTESTS = [
+    { name: "LeetCode Weekly Contest", site: "LeetCode", start_time: new Date(Date.now() + 86400000).toISOString(), url: "https://leetcode.com/contest" },
+    { name: "Codeforces Round (Div. 2)", site: "Codeforces", start_time: new Date(Date.now() + 172800000).toISOString(), url: "https://codeforces.com/contests" },
+    { name: "CodeChef Starters", site: "CodeChef", start_time: new Date(Date.now() + 259200000).toISOString(), url: "https://www.codechef.com/contests" }
+  ];
+
+  const [contests, setContests] = React.useState<any[]>(FALLBACK_CONTESTS);
   const [loadingContests, setLoadingContests] = React.useState(true);
   const [roadmapProgress, setRoadmapProgress] = React.useState(75);
   const [targetRole, setTargetRole] = React.useState('AWS SA Professional');

@@ -17,12 +17,16 @@ export async function GET() {
   try {
     let response;
     try {
-      // Try main API
-      response = await tryFetch('https://kontests.net/api/v1/all', 12000);
+      // Try both main and mirror in parallel for maximum speed
+      const urls = [
+        'https://kontests.net/api/v1/all',
+        'https://www.kontests.net/api/v1/all'
+      ];
+      
+      response = await Promise.any(urls.map(url => tryFetch(url, 5000)));
     } catch (err) {
-      console.warn("[KONTESTS] Main API failed, trying www mirror...");
-      // Try www version as fallback mirror if main is slow/down
-      response = await tryFetch('https://www.kontests.net/api/v1/all', 10000);
+      console.warn("[KONTESTS] All API attempts failed or timed out.");
+      throw new Error("All endpoints failed");
     }
 
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
