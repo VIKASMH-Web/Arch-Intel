@@ -4,7 +4,7 @@ An **AI-powered architectural code analysis and developer mentoring platform** b
 
 The system analyzes software projects, detects security risks, generates architecture insights, and provides **career learning roadmaps**.
 
-Developed for the **AI for Bharat Hackathon** using **Amazon Bedrock, AWS Lambda, DynamoDB, and S3**.
+Developed  using **Amazon Bedrock, AWS Lambda, DynamoDB, and S3**.
 
 ---
 
