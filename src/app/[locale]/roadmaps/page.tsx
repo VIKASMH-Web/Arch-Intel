@@ -17,19 +17,8 @@ const RoadmapPage = () => {
 
   // Persistence: Load from localStorage
   React.useEffect(() => {
-    const savedSteps = localStorage.getItem('roadmap-steps');
+    // We intentionally do not load saved roadmap steps so the page always starts clean with the search prompt.
     const savedMods = localStorage.getItem('roadmap-completed-mods');
-
-    if (savedSteps) {
-      try {
-        const parsed = JSON.parse(savedSteps);
-        if (parsed && parsed.length > 0) {
-          setSteps(parsed);
-          setShowRoadmap(true);
-        }
-      } catch (e) {}
-    }
-    
     if (savedMods) {
       try {
         setCompletedModules(JSON.parse(savedMods));
@@ -37,10 +26,6 @@ const RoadmapPage = () => {
     }
   }, []);
 
-
-  React.useEffect(() => {
-    localStorage.setItem('roadmap-steps', JSON.stringify(steps));
-  }, [steps]);
 
   React.useEffect(() => {
     localStorage.setItem('roadmap-completed-mods', JSON.stringify(completedModules));
