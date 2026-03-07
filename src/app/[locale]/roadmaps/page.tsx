@@ -9,14 +9,10 @@ const RoadmapPage = () => {
   const t = useTranslations('Roadmap');
   const locale = useLocale();
   const [inputValue, setInputValue] = useState('');
-  const [showRoadmap, setShowRoadmap] = useState(true);
+  const [showRoadmap, setShowRoadmap] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [completedModules, setCompletedModules] = useState<string[]>([]);
-  const [steps, setSteps] = useState([
-    { title: 'Foundations & Architecture', description: 'Grasp the core principles of cloud infrastructure and high availability.', modules: ['VPC Peering', 'IAM Roles', 'S3 Architecture'], certs: 'Cloud Practitioner', status: 'completed', importance: 'core', estimated_weeks: 2 },
-    { title: 'Scalable Systems', description: 'Design systems that automatically handle traffic spikes with surgical precision.', modules: ['Auto Scaling', 'ALB/NLB', 'Event-Bridge'], certs: 'Associate Architect', status: 'in-progress', importance: 'core', estimated_weeks: 3 },
-    { title: 'Zero-Trust Security', description: 'Implement mandatory safety patterns and architectural guardrails.', modules: ['WAF Rules', 'KMS Encryption', 'VPC Flow Logs'], certs: 'Security Specialty', status: 'todo', importance: 'advanced', estimated_weeks: 4 },
-  ]);
+  const [steps, setSteps] = useState<any[]>([]);
 
 
   // Persistence: Load from localStorage
@@ -25,13 +21,20 @@ const RoadmapPage = () => {
     const savedMods = localStorage.getItem('roadmap-completed-mods');
 
     if (savedSteps) {
-      setSteps(JSON.parse(savedSteps));
-      setShowRoadmap(true);
-    } else {
-      // Initially generate Frontend Developer roadmap
-      handleGenerate('Frontend Developer');
+      try {
+        const parsed = JSON.parse(savedSteps);
+        if (parsed && parsed.length > 0) {
+          setSteps(parsed);
+          setShowRoadmap(true);
+        }
+      } catch (e) {}
     }
-    if (savedMods) setCompletedModules(JSON.parse(savedMods));
+    
+    if (savedMods) {
+      try {
+        setCompletedModules(JSON.parse(savedMods));
+      } catch (e) {}
+    }
   }, []);
 
 
@@ -320,6 +323,24 @@ const RoadmapPage = () => {
           </div>
         </div>
       </div>
+
+      {/* ─── EMPTY STATE (BEFORE SEARCH) ─── */}
+      <AnimatePresence>
+        {!showRoadmap && !isGenerating && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="flex flex-col items-center justify-center py-20 text-center"
+          >
+            <div className="w-24 h-24 bg-white border border-border/60 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-primary/5">
+              <Search className="text-primary/40" size={40} />
+            </div>
+            <h2 className="text-2xl font-black text-foreground mb-2">Ready to Master a New Skill?</h2>
+            <p className="text-muted text-sm max-w-sm">Search for a job role, technology, or framework above to generate your dynamic, step-by-step learning roadmap.</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ─── ROADMAP PATH (ROADMAP.SH STYLE) ─── */}
       <AnimatePresence>
