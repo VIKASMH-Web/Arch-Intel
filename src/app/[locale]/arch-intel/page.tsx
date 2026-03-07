@@ -320,8 +320,26 @@ const ArchIntelPage = () => {
       if (data.architecture_explanation) {
         setAwsResult(data);
         setNarrativeText(data.architecture_explanation);
-        setOutputLog('> Architecture analysis complete.\n> AI narrative explanation generated successfully.');
         setShowResults(true);
+        
+        // Execute Code for Terminal Output
+        try {
+          const runRes = await fetch('/api/arch-intel/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ language: selectedLang, code: codeContent, input: stdinInput }),
+          });
+          const runData = await runRes.json();
+          if (runData.error) {
+            setOutputLog(`> Execution Failed:\n${runData.error}`);
+          } else {
+            const timestamp = new Date(runData.timestamp || Date.now()).toLocaleTimeString();
+            setOutputLog(`[${timestamp}] Arch-Intel Execution Result:\n------------------\n${runData.output || '(No Output)'}\n------------------\nExecution Status: Success\n> Architecture analysis complete.`);
+          }
+        } catch (e) {
+             setOutputLog(`> Architecture analysis complete.\n> AI execution failed to connect.`);
+        }
+
       } else {
         throw new Error(data.error || 'Analysis failed');
       }
@@ -330,8 +348,25 @@ const ArchIntelPage = () => {
       const localResult = analyzeCode(codeContent, selectedLang, "Clean");
       setAwsResult(localResult as any);
       setNarrativeText(localResult.architecture_explanation);
-      setOutputLog('> Local analysis engine complete.\n> AI narrative explanation generated successfully.');
       setShowResults(true);
+
+      // Execute Code for Terminal Output
+      try {
+          const runRes = await fetch('/api/arch-intel/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ language: selectedLang, code: codeContent, input: stdinInput }),
+          });
+          const runData = await runRes.json();
+          if (runData.error) {
+            setOutputLog(`> Execution Failed:\n${runData.error}`);
+          } else {
+            const timestamp = new Date(runData.timestamp || Date.now()).toLocaleTimeString();
+            setOutputLog(`[${timestamp}] Arch-Intel Execution Result:\n------------------\n${runData.output || '(No Output)'}\n------------------\nExecution Status: Success\n> Architecture analysis complete.`);
+          }
+        } catch (e) {
+             setOutputLog(`> Architecture analysis complete.\n> AI execution failed to connect.`);
+        }
     } finally {
       setIsProcessing(false);
     }
